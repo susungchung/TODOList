@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type = "text/css" href="/stylesheets/style.css" >
+    <!--<h1><a href="/">TodoList</a></h1>-->
+    <ul class = 'todo'>
+        <li class = 'create_task todo_component'>
+            <form action = '/list/create' method = 'post' class = 'task_forms'>
+                <input type = 'text' name = 'new_task' placeholder = 'new task'></input>
+                <button><i class = 'fa fa-plus-square-o'></i></button>
+            </form>
+        </li>
+        <% tasks.forEach(task=>{ %>
+        <li class = 'task_entry todo_component'> 
+            <!--task description-->
+            <% if (task.id == update_id) {%>
+                <span class = 'update_task_desc'>
+                    <input type = 'text' name = 'update_text' value = '<%= task.task_desc %>'>
+                </span>
+            <%} else {%>
+                <span  class = 
+                <% if (task.completed) { %>
+                    'completed_task
+                <% } else { %>
+                    'incompleted_task
+                <% } %> task_desc'>
+                    <%=task.task_desc%>
+                </span>
+            <% } %>
+            <span class = 'task_buttons'>
+                <!--update button-->
+                <a href = '/list/update/<%= task.id %>' class = 'update_task task_forms'>
+                    <span class = 'fa fa-edit'></span>
+                </a>
+                <!--completed button-->
+                <form action ='/list/set_complete' method = 'post' class = 'task_forms completed_button'>
+                    <input type = 'hidden' name = 'task_id' value = <%= task.id %>>
+                    <input type = 'hidden' name = 'completed' value = <%= task.completed %>>
+                    <button>
+                    <% if (task.completed){ %>
+                        <i class = 'fa fa-check-square-o'></i>
+                    <% } else { %>
+                        <i class = 'fa fa-square-o'></i>
+                    <% } %> 
+                    </button>
+                </form>
+                <!--delete button-->
+                <form action = '/list/delete' method = 'post' class = 'task_forms'>
+                    <input type = 'hidden' name = 'task_id' value = <%= task.id %>>
+                    <button>
+                        <i class = 'fa fa-remove'></i>
+                    </button>
+                </form>
+            </span>
+    
+        </li>
+        <% }) %>
+    </ul>
+</body>
+</html>

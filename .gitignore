@@ -1,5 +1,5 @@
-node_modules/
-package.json
-package-lock.json
-config/db_config.js
-config/db_config.txt
+backend/node_modules/
+backend/package.json
+backend/package-lock.json
+backend/config/db_config.js
+backend/config/db_config.txt

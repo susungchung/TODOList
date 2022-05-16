@@ -47,7 +47,6 @@ exports.tasks = (tasks,create,update_task_id)=>{
                 `
                 
         }
-        console.log(typeof task.completed);
         var button_text
         if (task.completed){
             button_text = 'incomplete'
