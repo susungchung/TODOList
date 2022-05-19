@@ -1,0 +1,81 @@
+body{
+  /*background-color: #000181;*/
+  background: linear-gradient(140deg,#1974D3,#55ccEc);
+  height:100vh;
+}
+
+.todo{
+  background-color: #FFF7D9;
+  border-radius: 15px;
+  display:flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-right:40px;
+  padding-bottom:20px;
+  padding-top:20px;
+  margin-right:100px;
+  margin-left:100px;
+}
+
+.todo_component{
+  display: flex;
+  flex-direction: row;
+  align-content: flex-end;
+  background-color: #FFE6B6;
+  border-radius: 7px;
+  margin-top:3px;
+  padding:3px;
+  padding-left:10px;
+}
+
+.task_forms{
+  display: inline-block;
+}
+
+.task_buttons{
+  margin-left:auto;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.fa-square-o{
+  margin-right:2.5px;
+}
+
+.task_forms button {
+  padding-left: 1px;
+  border: none;
+  background: none;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+
+.update_task{
+  text-decoration: none;
+}
+
+.completed_task{
+  color: blue;
+  text-decoration: line-through;
+}
+
+.fa-edit{
+  color:green;
+  margin-right:3px;
+}
+.fa-remove{
+  color:red;
+}
+
+
+
+@media (max-width:800px){
+  .todo{  
+    margin-right:0px;
+    margin-left:0px;
+  }
+  .todo_component{
+    flex-direction: column;
+  }
+}

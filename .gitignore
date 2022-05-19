@@ -3,3 +3,6 @@ backend/package.json
 backend/package-lock.json
 backend/config/db_config.js
 backend/config/db_config.txt
+node_modules/
+package.json
+package-lock.json

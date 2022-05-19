@@ -25,11 +25,12 @@
                 </span>
             <%} else {%>
                 <span  class = 
-                <% if (task.completed) { %>
-                    'completed_task
-                <% } else { %>
-                    'incompleted_task
-                <% } %> task_desc'>
+                    <% if (task.completed) { %> 
+                        'completed_task
+                    <% } else { %>
+                        'incompleted_task
+                    <% } %> task_desc'
+                >
                     <%=task.task_desc%>
                 </span>
             <% } %>

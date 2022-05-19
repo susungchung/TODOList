@@ -1,7 +1,6 @@
 const express = require('express');
 const db =  require('../lib/db');
 const router = express.Router();
-const template = require('../lib/template');
 
 
 /* GET list page. */
