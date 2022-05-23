@@ -1,16 +1,7 @@
+import "./WholeList.css"
+import Buttons from "./Buttons";
+import CreateTask from "./CreateTask";
 
-
-
-function CreateTask(){
-    return <div>
-        <li className = 'create_task todo_component'>
-            <form action = '/list/create' method = 'post' className = 'task_forms'>
-                <input type = 'text' name = 'new_task' placeholder = 'new task'/>
-                <button><i className = 'fa fa-plus-square-o'></i></button>
-            </form>
-        </li>
-    </div>
-}
 
 function TaskDescription(props){
     if (props.data.id === props.update_id) {
@@ -28,51 +19,12 @@ function TaskDescription(props){
     }
 }
 
-function UpdateButton(props){
-    return <a href = {'/list/update/' + props.data.id} className = 'update_task task_forms'>
-                <span className = 'fa fa-edit'></span>
-            </a>
-}
-
-function CompleteButton(props){
-    let icon = props.data.completed 
-                    ? <i className = 'fa fa-check-square-o'></i>
-                    : <i className = 'fa fa-square-o'></i>
-    return <form action ='/list/set_complete' method = 'post' className = 'task_forms completed_button'>
-    <input type = 'hidden' name = 'task_id' value = {props.data.id}/>
-    <input type = 'hidden' name = 'completed' value = {props.completed}/>
-    <button>
-        {icon}
-    </button>
-</form>
-}
-function DeleteButton(props) {
-    return <form action = '/list/delete' method = 'post' className = 'task_forms'>
-        <input type = 'hidden' name = 'task_id' value = {props.id}/>
-        <button>
-            <i className = 'fa fa-remove'></i>
-        </button>
-    </form>
-}
-
-function Buttons(props){
-    return <span className = 'task_buttons'>
-        <UpdateButton data = {props.data}></UpdateButton>
-        <CompleteButton data = {props.data}></CompleteButton>
-        <DeleteButton id = {props.data.id}></DeleteButton>
-    </span>
-}
-
-
 function Task(props){
-    return <li key = {props.data.id} className = 'task_entry todo_component'>
-        <TaskDescription data = {props.data} update_id = {props.update_id}></TaskDescription>
-        <Buttons data = {props.data}></Buttons>
-    </li>
+    return  <li className = 'task_entry todo_component' >
+                <TaskDescription data = {props.data} update_id = {props.update_id}></TaskDescription>
+                <Buttons data = {props.data}></Buttons>
+            </li>
 }
-
-
-
 
 function WholeList(){
     const temp_data = {title: 'task lists',tasks:[ {
@@ -126,16 +78,19 @@ function WholeList(){
     ],update_id: -1}
 
     let tasklist = temp_data.tasks.map((cur_task)=>{
-        return <Task data = {cur_task} update_id = {temp_data.update_id}></Task>
+        return <Task data = {cur_task} update_id = {temp_data.update_id} key = {cur_task.id} ></Task>
     });
     
-    return<div>
-            <ul className = 'todo'>
-                <CreateTask></CreateTask>
+    return  <ul className = 'todo'>
+                <CreateTask onCreate = {onCreate}></CreateTask>
                 {tasklist}
             </ul>
-        </div>
 }
+
+function onCreate(event){
+  console.log('onCreate')
+}
+
 
     
 
