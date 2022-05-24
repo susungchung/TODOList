@@ -1,5 +1,6 @@
 import "./WholeList.css"
-import {useSelector} from 'react-redux';
+import { useEffect } from 'react';
+import {useSelector,useDispatch} from 'react-redux';
 import Buttons from "./Buttons";
 import CreateTask from "./CreateTask";
 
@@ -28,16 +29,36 @@ function Task(props){
 }
 
 function WholeList(){
-    const current_tasks = useSelector(state=>state.tasks);
-    const current_update_id = useSelector(state=>state.update_id);
-    let tasklist = current_tasks.map((cur_task)=>{
-      return <Task data = {cur_task} update_id = {current_update_id} key = {cur_task.id} ></Task>
-    });
+    const dispatch = useDispatch();
+
+    useEffect(
+      ()=>{
+        fetch("http://localhost:5000/list/",{method:'get'})
+        .then((res)=>{
+          console.log(res);
+          if (res.ok){
+            return res.json();
+          }
+          throw res;
+        }).then(data =>{
+          dispatch({type:"READ",data:data});
+        }).catch(error=>{
+          console.error(error);
+        }).finally(()=>{});
+    },[dispatch]);
+
+
+    let tasklist = [];
+    const current_state = useSelector(state=>state);
+    if (current_state){
+      tasklist = current_state.tasks.map((cur_task)=>{
+        return <Task data = {cur_task} update_id = {current_state.update_id} key = {cur_task.id} ></Task>
+      });
+    }
     
     return  <ul className = 'todo'>
               <CreateTask></CreateTask>
               {tasklist}
             </ul>
 }
-
 export default WholeList;

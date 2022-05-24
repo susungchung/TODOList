@@ -7,7 +7,8 @@ const router = express.Router();
 router.get('/', (req, res) => {
     db.query("SELECT * FROM tasks",(error,query_result)=>{
         if (error) throw error;
-        res.render('list.ejs', { title: 'task lists',  tasks: query_result, update_id: -1});
+        //res.render('list.ejs', { title: 'task lists',  tasks: query_result, update_id: -1});
+        res.json({ title: 'task lists',  tasks: query_result, update_id: -1});
     })
 });
 
