@@ -15,6 +15,7 @@ router.get('/', (req, res) => {
 router.post('/create',(req,res)=>{
     var post = req.body;
     var task_desc = post.new_task;
+    console.log("body:",post);
     db.query("INSERT INTO tasks (task_desc,completed,created,user_id) VALUES(?,FALSE,NOW(),1)",[task_desc],(error,query_result)=>{
         if(error) throw error;
         res.redirect('/list');
@@ -39,6 +40,7 @@ router.post('/update',(req,res)=>{
 
 router.post('/delete',(req,res)=>{
     var post = req.body;
+    console.log("delete_task_id:",post);
     db.query("DELETE FROM tasks WHERE id = ?",[post.task_id],(error,result)=>{
         if (error) throw error;
         res.redirect('/list');
@@ -48,11 +50,11 @@ router.post('/delete',(req,res)=>{
 router.post('/set_complete',(req,res)=>{
     var post = req.body;
     var task_id = post.task_id;
-    var task_completed;
+    var new_completed;
     console.log(post)
-    if (post.completed === '0') task_completed = true;
-    else task_completed = false;
-    db.query("UPDATE tasks SET completed = ? WHERE id = ? ",[task_completed,task_id],(error,query_result)=>{
+    if (post.completed === '0') new_completed = true;
+    else new_completed = false;
+    db.query("UPDATE tasks SET completed = ? WHERE id = ? ",[new_completed,task_id],(error,query_result)=>{
         if (error) throw error;
         res.redirect('/list');
     });

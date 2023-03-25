@@ -16,13 +16,16 @@ export default function CreateTask(props){
 function onCreateSubmit(event){
     event.preventDefault();
     if (event.target.new_task.value === '') {
-        console.log('empty')
+        console.log('empty');
         return;
     }
-    console.log('data: '+event.target.new_task.value);
     // make call to the backend
-    //fetch('http://localhost:5000/list',{method:"post",body:})
-    this.dispatch({type : 'CREATE', new_task : event.target.new_task.value})
+    const data = {new_task : event.target.new_task.value}
+    console.log(JSON.stringify(data));
+    fetch('http://localhost:5000/list/create',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors'})
+    .then(res=>{return res.json()}).then(data=>{console.log(data)});
+    //this.dispatch({type : 'CREATE', new_task : event.target.new_task.value})
     event.target.reset();
+    window.location.reload(false); // should use state instead to refresh the page
 }
 

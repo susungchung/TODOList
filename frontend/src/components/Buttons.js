@@ -4,9 +4,9 @@ function UpdateButton(props){
     const dispatch = useDispatch();
     const new_props = {...props,dispatch:dispatch}
     return (
-        <a href = {'/list/update/' + props.data.id} className = 'update_task task_forms' onClick = {onClickUpdate.bind(new_props)}>
+        <form className = 'update_task task_forms' onClick = {onClickUpdate.bind(new_props)}>
             <span className = 'fa fa-edit'></span>
-        </a>
+        </form>
     )
 }
 
@@ -20,25 +20,56 @@ function CompleteButton(props){
     let icon = props.data.completed 
                     ? <i className = 'fa fa-check-square-o'></i>
                     : <i className = 'fa fa-square-o'></i>
+    const dispatch = useDispatch();
+    const props_clone = {...props,dispatch:dispatch}
     return (
-        <form action ='/list/set_complete' method = 'post' className = 'task_forms completed_button'>
+        <form className = 'task_forms completed_button' onSubmit = {onCompleteSubmit.bind(props_clone)}>
             <input type = 'hidden' name = 'task_id' value = {props.data.id}/>
-            <input type = 'hidden' name = 'completed' value = {props.completed}/>
+            <input type = 'hidden' name = 'completed' value = {props.data.completed}/>
             <button>
                 {icon}
             </button>
         </form>
     )
 }
+
+function onCompleteSubmit(event){
+    event.preventDefault();
+    const data = {task_id:event.target.task_id.value, completed:event.target.completed.value}
+    console.log("data:",data);
+    fetch('http://localhost:5000/list/set_complete',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors'})
+    .then(res=>{return res.json()}).then(data=>{console.log(data)});
+    event.target.reset();
+    window.location.reload(false); // should use state instead to refresh the page
+}
+
 function DeleteButton(props) {
+    const dispatch = useDispatch();
+    const props_clone = {...props,dispatch:dispatch}
     return (
-        <form action = '/list/delete' method = 'post' className = 'task_forms'>
+        <form className = 'task_forms' onSubmit = {onDeleteSubmit.bind(props_clone)}>
             <input type = 'hidden' name = 'task_id' value = {props.id}/>
             <button>
                 <i className = 'fa fa-remove'></i>
             </button>
         </form>
     )
+}
+
+
+function onDeleteSubmit(event){
+    event.preventDefault();
+    // if (event.target.new_task.value === '') {
+    //     console.log('empty');
+    //     return;
+    // }
+    // make call to the backend
+    const data = {task_id : event.target.task_id.value}
+    console.log("data:",data);
+    fetch('http://localhost:5000/list/delete',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors'})
+    .then(res=>{return res.json()}).then(data=>{console.log(data)});
+    event.target.reset();
+    window.location.reload(false); // should use state instead to refresh the page
 }
 
 function Buttons(props){

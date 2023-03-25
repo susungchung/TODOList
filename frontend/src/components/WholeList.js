@@ -4,11 +4,20 @@ import {useSelector,useDispatch} from 'react-redux';
 import Buttons from "./Buttons";
 import CreateTask from "./CreateTask";
 
+function OnUpdateSubmit(){
+  
+}
 
 function TaskDescription(props){
+    const dispatch = useDispatch();
+    const new_props = {...props,dispatch:dispatch}
     if (props.data.id === props.update_id) {
         return  <span className = 'update_task_desc'>
-                    <input type = 'text' name = 'update_text' value = {props.data.task_desc}/>
+                    <form>
+                        <input type = 'text' name = 'update_text' value = {props.data.task_desc}/>
+                        <input type = 'hidden' name = 'task_id' value = {props.data.task_id}/>
+                        <input type = 'submit' value = 'update' onClick={OnUpdateSubmit.bind(new_props)}></input>
+                    </form>
                 </span>
     }
     else{

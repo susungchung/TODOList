@@ -1,11 +1,13 @@
 body{
   /*background-color: #000181;*/
-  background: linear-gradient(140deg,#1974D3,#55ccEc);
+  /*background: linear-gradient(140deg,#1974D3,#55ccEc);*/
+  background-color:#BBBBBB;
   height:100vh;
 }
 
 .todo{
-  background-color: #FFF7D9;
+  /*background-color: #FFF7D9;*/
+  background:#CCCCCC;
   border-radius: 15px;
   display:flex;
   flex-direction: column;
@@ -15,17 +17,22 @@ body{
   padding-top:20px;
   margin-right:100px;
   margin-left:100px;
+  margin-top:100px;
 }
 
 .todo_component{
   display: flex;
   flex-direction: row;
   align-content: flex-end;
-  background-color: #FFE6B6;
+  /*background-color: #FFE6B6;*/
+  background: #EEEEEE;
   border-radius: 7px;
   margin-top:3px;
   padding:3px;
   padding-left:10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 25px;
+  font-weight: normal;
 }
 
 .task_forms{
