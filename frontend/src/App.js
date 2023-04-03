@@ -4,7 +4,7 @@ import './App.css';
 
 import WholeList from './components/WholeList';
 
-const initialState = {title: 'task lists',tasks:[],update_id: -1,next_id:0}
+const initialState = {title: 'task lists',tasks:[],update_id: null,next_id:0,temp_desc:''}
 function reducer(currentState = initialState,action){
   if (action.type === 'CREATE'){
     const newState = {...currentState,tasks:[...currentState.tasks]}
@@ -15,17 +15,20 @@ function reducer(currentState = initialState,action){
       user_id:1
     });
     newState.next_id++;
-    console.log(newState);
     return newState;
   }
   if (action.type === 'READ'){
     const newState = {...action.data};
     return newState;
   }
-  if (action.type === 'UPDATE'){
-    const newState = {...currentState};
-    newState.update_id = action.id
-    return newState
+  if (action.type === 'START_UPDATE'){
+    const newState = {...currentState,update_id:action.id,temp_desc:action.desc};
+    console.log(newState.temp_desc);
+    return newState;
+  }
+  if (action.type === 'CANCEL_UPDATE'){
+    const newState = {...currentState,update_id:null}
+    return newState;
   }
 }
 

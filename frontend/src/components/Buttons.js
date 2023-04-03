@@ -1,8 +1,9 @@
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 function UpdateButton(props){
     const dispatch = useDispatch();
-    const new_props = {...props,dispatch:dispatch}
+    const update_id = useSelector((state)=>state.update_id);
+    const new_props = {...props,dispatch:dispatch,update_id:update_id}
     return (
         <form className = 'update_task task_forms' onClick = {onClickUpdate.bind(new_props)}>
             <span className = 'fa fa-edit'></span>
@@ -12,7 +13,13 @@ function UpdateButton(props){
 
 function onClickUpdate(event){
     event.preventDefault();
-    this.dispatch({type:"UPDATE",id:this.data.id})
+    if (this.update_id === this.data.id){
+        this.dispatch({type:"CANCEL_UPDATE"})
+    }
+    else{
+        this.dispatch({type:"START_UPDATE",id:this.data.id,desc:this.data.task_desc})
+        
+    }
 }
 
 
