@@ -1,6 +1,6 @@
-//const mysql = require('mysql');
 const {Client} = require('pg');
-const db_config = require('../config/db_config');
+//const db_config = require('../config/db_config');
+const db_config = require('../db_config');
 
 var connection = new Client({
     host:db_config.host,
