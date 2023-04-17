@@ -73,7 +73,7 @@ function onDeleteSubmit(event){
     // make call to the backend
     const data = {task_id : event.target.task_id.value}
     console.log("data:",data);
-    fetch(REACT_APP_SERVER_URL+'list/delete',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors'})
+    fetch(process.env.REACT_APP_SERVER_URL+'list/delete',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors'})
     .then(res=>{return res.json()}).then(data=>{console.log(data)});
     event.target.reset();
     window.location.reload(false); // should use state instead to refresh the page
