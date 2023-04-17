@@ -16,7 +16,7 @@ function OnUpdateSubmit(event){
   console.log(event)
   const data = {updated_task : event.target.update_text.value,task_id : event.target.task_id.value}
   console.log(data)
-  fetch('http://localhost:5000/list/update',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors'})
+  fetch(REACT_APP_SERVER_URL+'list/update',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors'})
   .then(res=>{return res.json()}).then(data=>{console.log(data)});
 
   event.target.reset();
@@ -59,7 +59,7 @@ function WholeList(){
 
     useEffect(
       ()=>{
-        fetch("http://localhost:5000/list/",{method:'get'})
+        fetch(process.env.REACT_APP_SERVER_URL+"list/",{method:'get'})
         .then((res)=>{
           console.log(res);
           if (res.ok){
