@@ -56,6 +56,7 @@ function Task(props){
 
 function WholeList(){
     const dispatch = useDispatch();
+    //console.log("LOOOOG"+process.env.REACT_APP_SERVER_URL+"list/")
 
     useEffect(
       ()=>{
