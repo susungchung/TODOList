@@ -12,6 +12,20 @@ router.get('/', (req, res) => {
     })
 });
 
+router.get('/:username', (req, res) => {
+    const username = req.params.username;
+    db.query("SELECT id FROM users WHERE name = $1",[username],(error,userid_result) =>{
+        if (error) throw error;
+        if (userid_result.rowCount!=0){
+            const user_id = userid_result.rows[0].id
+            db.query("SELECT * FROM tasks WHERE user_id = $1 ORDER BY id ASC",[user_id],(error,query_result)=>{
+                if (error) throw error;
+                res.json({ title: 'task lists',  tasks: query_result.rows, update_id: -1});
+            })
+        }
+    })
+});
+
 router.post('/create',(req,res)=>{
     var post = req.body;
     var task_desc = post.new_task;

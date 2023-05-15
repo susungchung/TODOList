@@ -2,9 +2,22 @@ import {Provider} from 'react-redux';
 import {configureStore} from '@reduxjs/toolkit'
 import './App.css';
 
+import Nav from './components/Nav';
+import Register from './components/Register';
+import Signin from './components/Signin';
 import WholeList from './components/WholeList';
 
-const initialState = {title: 'task lists',tasks:[],update_id: null,next_id:0,temp_desc:''}
+const initialState = 
+{
+  title: 
+  'task lists',
+  tasks:[],
+  update_id: null,
+  next_id:0,
+  temp_desc:'',
+  username: '',
+  signinStatus: false
+}
 function reducer(currentState = initialState,action){
   if (action.type === 'CREATE'){
     const newState = {...currentState,tasks:[...currentState.tasks]}
@@ -18,7 +31,7 @@ function reducer(currentState = initialState,action){
     return newState;
   }
   if (action.type === 'READ'){
-    const newState = {...action.data};
+    const newState = {...currentState,tasks:action.data.tasks,update_id:action.data.update_id};
     return newState;
   }
   if (action.type === 'START_UPDATE'){
@@ -27,7 +40,11 @@ function reducer(currentState = initialState,action){
     return newState;
   }
   if (action.type === 'CANCEL_UPDATE'){
-    const newState = {...currentState,update_id:null}
+    const newState = {...currentState,update_id:null};
+    return newState;
+  }
+  if (action.type === 'UPDATE_SIGNIN_INFO'){
+    const newState = {...currentState,signinStatus: action.signinStatus,username: action.username};
     return newState;
   }
 }
@@ -39,7 +56,10 @@ function App() {
     <div className="App">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
       <Provider store = {store}>
+        <Nav></Nav>
         <WholeList></WholeList>
+        <Register></Register>
+        <Signin></Signin>
       </Provider>
     </div>
   );

@@ -56,11 +56,18 @@ function Task(props){
 
 function WholeList(){
     const dispatch = useDispatch();
-    //console.log("LOOOOG"+process.env.REACT_APP_SERVER_URL+"list/")
+    const current_state = useSelector(state=>state);
+    let username = ''
+    let signinStatus = false;
+    if (current_state){
+      console.log(current_state)
+      signinStatus = current_state.signinStatus;
+      if (signinStatus) username = current_state.username;
+    }
 
     useEffect(
       ()=>{
-        fetch(process.env.REACT_APP_SERVER_URL+"list/",{method:'get'})
+        fetch(process.env.REACT_APP_SERVER_URL+"list/"+username,{method:'get'})
         .then((res)=>{
           console.log(res);
           if (res.ok){
@@ -68,15 +75,17 @@ function WholeList(){
           }
           throw res;
         }).then(data =>{
+          console.log("wholelist" + data);
           dispatch({type:"READ",data:data});
         }).catch(error=>{
           console.error(error);
         }).finally(()=>{});
-    },[dispatch]);
-
+    },[dispatch,username]);
+    
+    
 
     let tasklist = [];
-    const current_state = useSelector(state=>state);
+    
     if (current_state){
       tasklist = current_state.tasks.map((cur_task)=>{
         return <Task data = {cur_task} update_id = {current_state.update_id} key = {cur_task.id}></Task>

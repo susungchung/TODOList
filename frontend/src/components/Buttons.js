@@ -18,7 +18,6 @@ function onClickUpdate(event){
     }
     else{
         this.dispatch({type:"START_UPDATE",id:this.data.id,desc:this.data.task_desc})
-        
     }
 }
 
@@ -44,10 +43,18 @@ function onCompleteSubmit(event){
     event.preventDefault();
     const data = {task_id:event.target.task_id.value, completed:event.target.completed.value}
     console.log("data:",data);
-    fetch(process.env.REACT_APP_SERVER_URL+'list/set_complete',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors'})
-    .then(res=>{return res.json()}).then(data=>{console.log(data)});
-    event.target.reset();
-    window.location.reload(false); // should use state instead to refresh the page
+    fetch(
+        process.env.REACT_APP_SERVER_URL+'list/set_complete',
+        {method:"post",
+        headers:{'Content-Type': 'application/json'},
+        body:JSON.stringify(data),
+        mode: 'cors'})
+    .then(res=>{
+            return res.json()
+        })
+    .then(data=>{
+            this.dispatch({type:"READ",data:data})
+        });
 }
 
 function DeleteButton(props) {
@@ -74,9 +81,7 @@ function onDeleteSubmit(event){
     const data = {task_id : event.target.task_id.value}
     console.log("data:",data);
     fetch(process.env.REACT_APP_SERVER_URL+'list/delete',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors'})
-    .then(res=>{return res.json()}).then(data=>{console.log(data)});
-    event.target.reset();
-    window.location.reload(false); // should use state instead to refresh the page
+    .then(res=>{return res.json()}).then(data=>{this.dispatch({type:"READ",data:data})});
 }
 
 function Buttons(props){
