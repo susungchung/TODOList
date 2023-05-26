@@ -16,6 +16,7 @@ const initialState =
   next_id:0,
   temp_desc:'',
   username: '',
+  user_id:0,
   signinStatus: false
 }
 function reducer(currentState = initialState,action){
@@ -25,7 +26,7 @@ function reducer(currentState = initialState,action){
       id:currentState.next_id,
       task_desc: action.new_task,
       completed:0,
-      user_id:1
+      user_id:newState.user_id
     });
     newState.next_id++;
     return newState;
@@ -44,7 +45,7 @@ function reducer(currentState = initialState,action){
     return newState;
   }
   if (action.type === 'UPDATE_SIGNIN_INFO'){
-    const newState = {...currentState,signinStatus: action.signinStatus,username: action.username};
+    const newState = {...currentState,signinStatus: action.signinStatus,username: action.username,user_id:action.user_id};
     return newState;
   }
 }

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import Buttons from "./Buttons";
-import CreateTask from "./CreateTask";
+import CreateTask from "./CreateTask"; 
 
 function OnUpdateChange(event){
     event.preventDefault();
@@ -57,17 +57,18 @@ function Task(props){
 function WholeList(){
     const dispatch = useDispatch();
     const current_state = useSelector(state=>state);
-    let username = ''
+    let user_id = ''
     let signinStatus = false;
     if (current_state){
       console.log(current_state)
       signinStatus = current_state.signinStatus;
-      if (signinStatus) username = current_state.username;
+      if (signinStatus) user_id = current_state.user_id;
     }
+    console.log(user_id);
 
     useEffect(
       ()=>{
-        fetch(process.env.REACT_APP_SERVER_URL+"list/"+username,{method:'get'})
+        fetch(process.env.REACT_APP_SERVER_URL+"list/"+user_id,{method:'get'})
         .then((res)=>{
           console.log(res);
           if (res.ok){
@@ -80,20 +81,20 @@ function WholeList(){
         }).catch(error=>{
           console.error(error);
         }).finally(()=>{});
-    },[dispatch,username]);
+    },[dispatch,user_id]);
     
     
 
     let tasklist = [];
     
-    if (current_state){
+    if (current_state && current_state.tasks){
       tasklist = current_state.tasks.map((cur_task)=>{
         return <Task data = {cur_task} update_id = {current_state.update_id} key = {cur_task.id}></Task>
       });
     }
     
     return  <ul className = 'todo'>
-              <CreateTask></CreateTask>
+              <CreateTask state = {current_state}></CreateTask>
               {tasklist}
             </ul>
 }

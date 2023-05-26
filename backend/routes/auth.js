@@ -34,7 +34,7 @@ router.post('/signin',(req,res) => {
         else {
           if (query_result.rowCount != 0){
             if (query_result.rows[0].password === password){
-              res.json({username:username,status: true});
+              res.json({username:username,user_id:query_result.rows[0].id,status: true});
             }
             else{
               res.json({message:"Wrong Password",status :false});

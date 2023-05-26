@@ -3,6 +3,8 @@ const db =  require('../lib/db');
 const router = express.Router();
 
 
+
+
 /* GET list page. */
 router.get('/', (req, res) => {
     db.query("SELECT * FROM tasks ORDER BY id ASC",(error,query_result)=>{
@@ -12,23 +14,44 @@ router.get('/', (req, res) => {
     })
 });
 
-router.get('/:username', (req, res) => {
+function getUserIDFromUsername(req,res,next){
     const username = req.params.username;
+    req.user_id = -1;
     db.query("SELECT id FROM users WHERE name = $1",[username],(error,userid_result) =>{
-        if (error) throw error;
+        //if (error) throw error;
         if (userid_result.rowCount!=0){
-            const user_id = userid_result.rows[0].id
-            db.query("SELECT * FROM tasks WHERE user_id = $1 ORDER BY id ASC",[user_id],(error,query_result)=>{
-                if (error) throw error;
-                res.json({ title: 'task lists',  tasks: query_result.rows, update_id: -1});
-            })
+            req.user_id = userid_result.rows[0].id;
+            console.log("ID CHANGED", req.user_id)
         }
     })
+    next();
+}
+
+router.get('/:user_id',(req, res) => {
+    console.log("USER_ID",req.params.user_id);
+    // if (req.params.user_id == -1){
+    //     res.redirect('/list');
+    // }
+    db.query("SELECT * FROM tasks WHERE user_id = $1 ORDER BY id ASC",[req.params.user_id],(error,query_result)=>{
+        if (error) throw error;
+        res.json({ title: 'task lists',  tasks: query_result.rows, update_id: -1});
+    })
 });
+
+// router.get('/:user_id',(req,res) =>{
+//     db.query("SELECT * FROM tasks WHERE user_id = $1 ORDER BY id ASC",[user_id],(error,query_result)=>{
+//         if (error) throw error;
+//         res.json({ title: 'task lists',  tasks: query_result.rows, update_id: -1});
+//     })
+// });
 
 router.post('/create',(req,res)=>{
     var post = req.body;
     var task_desc = post.new_task;
+    var username = post.username;
+    if ((username) == ""){
+        user_id = 1;
+    }
     console.log("body:",post);
     db.query("INSERT INTO tasks (task_desc,completed,created,user_id) VALUES($1,FALSE,NOW(),1)",[task_desc],(error,query_result)=>{
         if(error) throw error;
