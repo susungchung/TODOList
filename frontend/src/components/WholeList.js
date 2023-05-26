@@ -48,7 +48,7 @@ function TaskDescription(props){
 
 function Task(props){
     const [curText,setCurText] = useState(props.data.task_desc)
-    return  <li className = 'task_entry todo_component' >
+    return  <li className = 'task_entry todo_component list-group-item' >
                 <TaskDescription data = {props.data} update_id = {props.update_id} curText = {curText} setCurText = {setCurText}></TaskDescription>
                 <Buttons data = {props.data}></Buttons>
             </li>
@@ -93,7 +93,7 @@ function WholeList(){
       });
     }
     
-    return  <ul className = 'todo'>
+    return  <ul className = 'todo list-group'>
               <CreateTask state = {current_state}></CreateTask>
               {tasklist}
             </ul>

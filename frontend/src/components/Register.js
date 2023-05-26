@@ -1,10 +1,12 @@
 //import { useState } from 'react';
 import "./Signin.css"
+import {useNavigate} from "react-router-dom";
 
 function Register(){
+    const navigate = useNavigate();
     return (
         <div className= 'form-outline'>
-            <form className= 'registration' onSubmit = {onRegisterSubmit}>
+            <form className= 'registration' onSubmit = {onRegisterSubmit.bind({navigate:navigate})}>
                 <div className = 'mb-3'>
                     <h1 className = 'form-text'>Create Account</h1>
                     <div className="form-input mb-4">
@@ -35,7 +37,8 @@ function onRegisterSubmit(event){
         (error) => {
             console.error('Error:', error);
             console.log("server is down!!");
-        })
+        }).then(this.navigate('/tasks'))
+    
     event.target.reset();
 }
 

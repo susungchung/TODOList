@@ -1,12 +1,13 @@
+import "./WholeList.css"
 import {useDispatch} from 'react-redux';
 
 export default function CreateTask(props){
     const dispatch = useDispatch();
     const props_clone = {...props,dispatch:dispatch}
     return  (
-        <li className = 'create_task todo_component'>
+        <li className = 'create_task todo_component list-group-item'>
             <form className = 'task_forms'  onSubmit = {onCreateSubmit.bind(props_clone)}>
-                <input type = 'text' name = 'new_task' placeholder = 'new task'/>
+                <input className= "task_input" type = 'text' name = 'new_task' placeholder = 'new task'/>
                 <button><i className = 'fa fa-plus-square-o' ></i></button>
             </form>
         </li>
