@@ -6,6 +6,7 @@ import Nav from './components/Nav';
 import Register from './components/Register';
 import Signin from './components/Signin';
 import WholeList from './components/WholeList';
+import {Routes, Route} from "react-router-dom"
 
 const initialState = 
 {
@@ -55,12 +56,12 @@ const store = configureStore({reducer:reducer});
 function App() {
   return (
     <div className="App">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
       <Provider store = {store}>
-        <Nav></Nav>
-        <WholeList></WholeList>
-        <Register></Register>
-        <Signin></Signin>
+      <Nav></Nav>
+        <Routes>
+          <Route path="/tasks" element={<WholeList />} />
+          <Route path="/signin" element={ <div><Register /><Signin/></div>} />
+        </Routes>
       </Provider>
     </div>
   );

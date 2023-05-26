@@ -1,64 +1,35 @@
 import "./Signin.css"
 import { useState } from 'react';
 import {useDispatch} from 'react-redux';
-//import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
-
-/*
-<form>
-  <!-- Email input -->
-  <div class="form-outline mb-4">
-    <input type="email" id="form2Example1" class="form-control" />
-    <label class="form-label" for="form2Example1">Email address</label>
-  </div>
-
-  <!-- Password input -->
-  <div class="form-outline mb-4">
-    <input type="password" id="form2Example2" class="form-control" />
-    <label class="form-label" for="form2Example2">Password</label>
-  </div>
-
-  <!-- 2 column grid layout for inline styling -->
-  <div class="row mb-4">
-    <div class="col d-flex justify-content-center">
-      <!-- Checkbox -->
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-        <label class="form-check-label" for="form2Example31"> Remember me </label>
-      </div>
-    </div>
-
-  <!-- Submit button -->
-  <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
-  </div>
-</form>
-*/
-
+import {useNavigate} from "react-router-dom";
 
 function Signin(){
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     //const [signinStatus,setSigninStatus] = useState(false);
     const [signinMessage,setSigninMessage] = useState("");
     const option = 
     {
         //setSigninStatus: setSigninStatus,
         setSigninMessage:setSigninMessage,
-        dispatch:dispatch
+        dispatch:dispatch,
+        navigate:navigate
     };
     
     return (
-        <div>
+        <div className= 'form-outline'>
             <form className= 'registration' onSubmit = {onSigninSubmit.bind(option)}>
                 <div className= 'mb-3'>
-                    <h1 class = 'form-text'>Sign in</h1>
-                    <div className="form-outline mb-4">
-                        <input type="text" id="form2Example1" className="form-control" name = 'username' placeholder="Username"/>
+                    <h1 className = 'form-text'>Sign in</h1>
+                    <div className="form-input mb-4">
+                        <input type="text" className="form-control" name = 'username' placeholder="Username"/>
                     </div>
 
-                    <div className="form-outline mb-4">
-                        <input type="password" id="form2Example2" className="form-control" name = 'password' placeholder="Password"/>
+                    <div className="form-input mb-4">
+                        <input type="password" className="form-control" name = 'password' placeholder="Password"/>
                     </div>
                 </div>
-                <button className="btn btn-primary btn-block mb-4">Sign in</button>
+                <button className="btn btn-block btn-primary submit-btn mb-4">Sign in</button>
             </form>
             <h1>{signinMessage}</h1>
         </div>
@@ -91,6 +62,7 @@ function onSigninSubmit(event){
             this.setSigninMessage(res.username);
             username = res.username;
             this.dispatch({type:"UPDATE_SIGNIN_INFO",signinStatus:res.status,username:username,user_id:res.user_id});
+            this.navigate("/tasks");
         }
         else{
             this.setSigninMessage(res.message);

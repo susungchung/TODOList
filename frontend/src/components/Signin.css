@@ -6,3 +6,13 @@
 .mb-3{
     font-size: 20px;
 }
+.form-input {
+    margin-right:700px;
+    margin-left:700px;
+}
+.submit-btn{
+    width: 520px;
+}
+.form-outline{
+    margin-top:50px;
+}
