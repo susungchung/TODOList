@@ -93,9 +93,14 @@ function WholeList(){
       });
     }
     
-    return  <ul className = 'todo list-group'>
-              <CreateTask state = {current_state}></CreateTask>
-              {tasklist}
-            </ul>
+    return  <div className="task-columns">
+              <ul className = 'todo list-group'>
+                <CreateTask state = {current_state}></CreateTask>
+                {tasklist}
+              </ul>
+              <ul className= 'in-progress list-group'>
+                <li className = 'todo_component list-group'>in progress</li>
+              </ul>
+            </div>
 }
 export default WholeList;
