@@ -68,11 +68,9 @@ function WholeList(){
     let user_id = ''
     let signinStatus = false;
     if (current_state){
-      console.log(current_state)
       signinStatus = current_state.signinStatus;
       if (signinStatus) user_id = current_state.user_id;
     }
-    console.log(user_id);
 
     useEffect(
       ()=>{
@@ -84,7 +82,6 @@ function WholeList(){
           }
           throw res;
         }).then(data =>{
-          console.log("wholelist" + data);
           dispatch({type:"READ",data:data});
         }).catch(error=>{
           console.error(error);

@@ -7,8 +7,8 @@
     font-size: 20px;
 }
 .form-input {
-    margin-right:700px;
-    margin-left:700px;
+    width:520px;
+    margin: auto;
 }
 .submit-btn{
     width: 520px;
