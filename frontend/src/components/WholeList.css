@@ -89,4 +89,8 @@
   .todo_component{
     flex-direction: column;
   }
+  .task-columns{
+    flex-direction: column;
+  }
+
 }
