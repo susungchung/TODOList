@@ -54,6 +54,14 @@ function Task(props){
             </li>
 }
 
+
+function populate_tasks_list(tasks,update_id){
+  return tasks.map((cur_task)=>{
+    return <Task data = {cur_task} update_id = {update_id} key = {cur_task.id}></Task>
+  });
+
+}
+
 function WholeList(){
     const dispatch = useDispatch();
     const current_state = useSelector(state=>state);
@@ -85,21 +93,30 @@ function WholeList(){
     
     
 
-    let tasklist = [];
+    let tasklist,tasks_in_progress,tasks_done = [];
     
-    if (current_state && current_state.tasks){
-      tasklist = current_state.tasks.map((cur_task)=>{
-        return <Task data = {cur_task} update_id = {current_state.update_id} key = {cur_task.id}></Task>
-      });
+    if (current_state && current_state.tasks_todo){
+      tasklist = populate_tasks_list(current_state.tasks_todo,current_state.update_id);
     }
     
+    if (current_state && current_state.tasks_in_progress){
+      tasks_in_progress = populate_tasks_list(current_state.tasks_in_progress,current_state.update_id);
+    }
+
+    if (current_state && current_state.tasks_done){
+      tasks_done = populate_tasks_list(current_state.tasks_done,current_state.update_id);
+    }
+
     return  <div className="task-columns">
               <ul className = 'todo list-group'>
                 <CreateTask state = {current_state}></CreateTask>
                 {tasklist}
               </ul>
               <ul className= 'in-progress list-group'>
-                <li className = 'todo_component list-group'>in progress</li>
+                {tasks_in_progress}
+              </ul>
+              <ul className= 'in-progress list-group'>
+                {tasks_done}
               </ul>
             </div>
 }

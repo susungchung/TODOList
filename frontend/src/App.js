@@ -1,18 +1,22 @@
 import {Provider} from 'react-redux';
 import {configureStore} from '@reduxjs/toolkit'
+import {Routes, Route} from "react-router-dom"
+
 import './App.css';
 
 import Nav from './components/Nav';
 import Register from './components/Register';
 import Signin from './components/Signin';
 import WholeList from './components/WholeList';
-import {Routes, Route} from "react-router-dom"
 
 const initialState = 
 {
   title: 
   'task lists',
   tasks:[],
+  tasks_todo:[],
+  tasks_in_progress:[],
+  tasks_done:[],
   update_id: null,
   next_id:0,
   temp_desc:'',
@@ -20,20 +24,26 @@ const initialState =
   user_id:0,
   signinStatus: false
 }
+
 function reducer(currentState = initialState,action){
   if (action.type === 'CREATE'){
     const newState = {...currentState,tasks:[...currentState.tasks]}
-    newState.tasks.push({
+    // by default, newly created list goes to tasks_todo
+    newState.tasks_todo.push({
       id:currentState.next_id,
       task_desc: action.new_task,
       completed:0,
       user_id:newState.user_id
-    });
+    });    
     newState.next_id++;
     return newState;
   }
   if (action.type === 'READ'){
     const newState = {...currentState,tasks:action.data.tasks,update_id:action.data.update_id};
+    // sort tasks based on their state
+    newState.tasks_todo = newState.tasks.filter(cur_task => cur_task.status === 'todo');
+    newState.tasks_in_progress = newState.tasks.filter(cur_task => cur_task.status === 'in_progress');
+    newState.tasks_done = newState.tasks.filter(cur_task => cur_task.status === 'done');
     return newState;
   }
   if (action.type === 'START_UPDATE'){
