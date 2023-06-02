@@ -44,7 +44,7 @@ function onCompleteSubmit(event){
     const data = {task_id:event.target.task_id.value, completed:event.target.completed.value}
     console.log("data:",data);
     fetch(
-        process.env.REACT_APP_SERVER_URL+'list/set_complete',
+        process.env.REACT_APP_SERVER_URL+'list/set_done',
         {method:"post",
         headers:{'Content-Type': 'application/json'},
         body:JSON.stringify(data),

@@ -100,4 +100,20 @@ router.post('/set_complete',(req,res)=>{
     });
 });
 
+
+router.put('/set_todo',(req,res)=>{
+    
+});
+router.put('/set_in_progress',(req,res)=>{
+    
+});
+router.post('/set_done',(req,res)=>{
+    var task_id = req.body.task_id;
+    db.query("UPDATE tasks SET status = 'done' WHERE id = $1",[task_id],(error,query_result)=>{
+        if (error) throw error;
+        res.redirect('/list');
+    })
+});
+
+
 module.exports = router;
