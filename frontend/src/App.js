@@ -71,6 +71,7 @@ function App() {
         <Routes>
           <Route path="/tasks" element={<WholeList />} />
           <Route path="/signin" element={ <div><Register /><Signin/></div>} />
+          <Route path="/tasks/:id" element={<div>page</div>}/>
         </Routes>
       </Provider>
     </div>

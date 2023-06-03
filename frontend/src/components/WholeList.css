@@ -24,8 +24,6 @@
 
 .todo_component{
   display: flex;
-  flex-direction: row;
-  align-content: flex-end;
   background-color: white;
   border-radius: 7px;
   margin-top:0px;
@@ -33,6 +31,15 @@
   padding-left:10px;
   width:300px;
   height:100px;
+}
+
+.todo_link{
+  display: flex;
+  flex-direction: row;
+  align-content: flex-end;
+  width:300px;
+  height:100px;
+  text-align: left;
 }
 
 .task_forms{
@@ -77,6 +84,11 @@
 
 .task_input{
   border:none;
+}
+.group-title{
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 

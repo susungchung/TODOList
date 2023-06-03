@@ -2,6 +2,8 @@ import "./WholeList.css"
 import { useEffect } from 'react';
 import { useState } from 'react';
 import {useSelector,useDispatch} from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import Buttons from "./Buttons";
 import CreateTask from "./CreateTask"; 
 
@@ -47,19 +49,22 @@ function TaskDescription(props){
 }
 
 function Task(props){
-    const dragEndHandler = ()=>{
-      console.log("end");
-    }
     const dragStartHandler = (e)=>{
-      console.log(props.data.status);
       e.dataTransfer.setData("id",props.data.id);
       e.dataTransfer.setData("status",props.data.status);
     }
 
     const [curText,setCurText] = useState(props.data.task_desc)
-    return  <li draggable onDragStart={dragStartHandler} onDragEnd={dragEndHandler} className = 'task_entry todo_component list-group-item' >
+    return  <li 
+              draggable 
+              onDragStart={dragStartHandler} 
+              //onClick={taskClickHandler}
+              className = 'task_entry todo_component'
+            >
+              <Link className = 'todo_link list-group-item'  to={`/tasks/${props.data.id}`}>
                 <TaskDescription data = {props.data} update_id = {props.update_id} curText = {curText} setCurText = {setCurText}></TaskDescription>
                 <Buttons data = {props.data}></Buttons>
+              </Link>
             </li>
 }
 
@@ -101,25 +106,19 @@ function WholeList(){
 
     let tasklist,tasks_in_progress,tasks_done = [];
     
-    if (current_state && current_state.tasks_todo){
-      tasklist = populate_tasks_list(current_state.tasks_todo,current_state.update_id);
-    }
-    
-    if (current_state && current_state.tasks_in_progress){
-      tasks_in_progress = populate_tasks_list(current_state.tasks_in_progress,current_state.update_id);
+    if (current_state){
+      if (current_state.tasks_todo)        
+        tasklist = populate_tasks_list(current_state.tasks_todo,current_state.update_id);
+      if (current_state.tasks_in_progress)
+        tasks_in_progress = populate_tasks_list(current_state.tasks_in_progress,current_state.update_id);
+      if (current_state.tasks_done)
+        tasks_done = populate_tasks_list(current_state.tasks_done,current_state.update_id);
     }
 
-    if (current_state && current_state.tasks_done){
-      tasks_done = populate_tasks_list(current_state.tasks_done,current_state.update_id);
-    }
-    
     const dropHandler = (e, statusValue)=>{
       // update status of the task based on its destination
-      // console.log(e.dataTransfer.getData('status'));
       const oldStatus = e.dataTransfer.getData('status');
       const task_id = e.dataTransfer.getData('id');
-
-      console.log(oldStatus,statusValue);
 
       if (oldStatus !== statusValue){
         const data = {task_id:task_id};
@@ -139,30 +138,32 @@ function WholeList(){
     }
 
     return  <div className="task-columns">
-              <div className='group-title'>Todo</div>
               <ul 
                 onDragOver={(e)=>{ e.preventDefault(); }} 
                 onDrop={(e)=>{dropHandler(e,'todo')}}
                 className = 'todo-group task-group list-group'
               >
-                  <CreateTask state = {current_state}></CreateTask>
-                  {tasklist}
+                <div className='group-title'>Todo</div>
+                <CreateTask state = {current_state}></CreateTask>
+                {tasklist}
               </ul>
-              <div className='group-title'>In progress</div>
+              
               <ul 
                 onDragOver={(e)=>{ e.preventDefault(); }} 
                 onDrop={(e)=>{dropHandler(e,'in_progress')}}
                 className= 'in-progress-group task-group list-group'
               >
-                  {tasks_in_progress}
+                <div className='group-title'>In progress</div>
+                {tasks_in_progress}
               </ul>
-              <div className='group-title'>Done</div>
+              
               <ul 
                 onDragOver={(e)=>{ e.preventDefault(); }} 
                 onDrop={(e)=>{dropHandler(e,'done')}}
                 className= 'done-group task-group list-group'
               >
-                  {tasks_done}
+                <div className='group-title'>Done</div>
+                {tasks_done}
               </ul>
             </div>
 }
