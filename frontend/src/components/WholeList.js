@@ -47,8 +47,17 @@ function TaskDescription(props){
 }
 
 function Task(props){
+    const dragEndHandler = ()=>{
+      console.log("end");
+    }
+    const dragStartHandler = (e)=>{
+      console.log(props.data.status);
+      e.dataTransfer.setData("id",props.data.id);
+      e.dataTransfer.setData("status",props.data.status);
+    }
+
     const [curText,setCurText] = useState(props.data.task_desc)
-    return  <li className = 'task_entry todo_component list-group-item' >
+    return  <li draggable onDragStart={dragStartHandler} onDragEnd={dragEndHandler} className = 'task_entry todo_component list-group-item' >
                 <TaskDescription data = {props.data} update_id = {props.update_id} curText = {curText} setCurText = {setCurText}></TaskDescription>
                 <Buttons data = {props.data}></Buttons>
             </li>
@@ -103,17 +112,57 @@ function WholeList(){
     if (current_state && current_state.tasks_done){
       tasks_done = populate_tasks_list(current_state.tasks_done,current_state.update_id);
     }
+    
+    const dropHandler = (e, statusValue)=>{
+      // update status of the task based on its destination
+      // console.log(e.dataTransfer.getData('status'));
+      const oldStatus = e.dataTransfer.getData('status');
+      const task_id = e.dataTransfer.getData('id');
+
+      console.log(oldStatus,statusValue);
+
+      if (oldStatus !== statusValue){
+        const data = {task_id:task_id};
+        fetch(
+          process.env.REACT_APP_SERVER_URL+`list/set_${statusValue}`,
+          {method:"post",
+          headers:{'Content-Type': 'application/json'},
+          body:JSON.stringify(data),
+          mode: 'cors'})
+        .then(res=>{
+          return res.json()
+        })
+        .then(data=>{
+          dispatch({type:"READ",data:data})
+        });
+      }
+    }
 
     return  <div className="task-columns">
-              <ul className = 'todo list-group'>
-                <CreateTask state = {current_state}></CreateTask>
-                {tasklist}
+              <div className='group-title'>Todo</div>
+              <ul 
+                onDragOver={(e)=>{ e.preventDefault(); }} 
+                onDrop={(e)=>{dropHandler(e,'todo')}}
+                className = 'todo-group task-group list-group'
+              >
+                  <CreateTask state = {current_state}></CreateTask>
+                  {tasklist}
               </ul>
-              <ul className= 'in-progress list-group'>
-                {tasks_in_progress}
+              <div className='group-title'>In progress</div>
+              <ul 
+                onDragOver={(e)=>{ e.preventDefault(); }} 
+                onDrop={(e)=>{dropHandler(e,'in_progress')}}
+                className= 'in-progress-group task-group list-group'
+              >
+                  {tasks_in_progress}
               </ul>
-              <ul className= 'in-progress list-group'>
-                {tasks_done}
+              <div className='group-title'>Done</div>
+              <ul 
+                onDragOver={(e)=>{ e.preventDefault(); }} 
+                onDrop={(e)=>{dropHandler(e,'done')}}
+                className= 'done-group task-group list-group'
+              >
+                  {tasks_done}
               </ul>
             </div>
 }

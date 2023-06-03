@@ -101,11 +101,19 @@ router.post('/set_complete',(req,res)=>{
 });
 
 
-router.put('/set_todo',(req,res)=>{
-    
+router.post('/set_todo',(req,res)=>{
+    var task_id = req.body.task_id;
+    db.query("UPDATE tasks SET status = 'todo' WHERE id = $1",[task_id],(error,query_result)=>{
+        if (error) throw error;
+        res.redirect('/list');
+    })
 });
-router.put('/set_in_progress',(req,res)=>{
-    
+router.post('/set_in_progress',(req,res)=>{
+    var task_id = req.body.task_id;
+    db.query("UPDATE tasks SET status = 'in_progress' WHERE id = $1",[task_id],(error,query_result)=>{
+        if (error) throw error;
+        res.redirect('/list');
+    })
 });
 router.post('/set_done',(req,res)=>{
     var task_id = req.body.task_id;
