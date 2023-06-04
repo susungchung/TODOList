@@ -1,0 +1,14 @@
+.page-title{
+    text-align: left;
+}
+
+.page-top{
+    background-color: skyblue;
+    display: flex;
+}
+.page-top-right{
+    margin-left:auto;
+    background-color: lightblue;
+    display: flex;
+    flex-direction: column;
+}

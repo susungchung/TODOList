@@ -30,7 +30,7 @@ function TaskDescription(props){
     const dispatch = useDispatch();
     const new_props = {...props,dispatch:dispatch}
     if (props.data.id === props.update_id) {
-        return  <span className = 'update_task_desc'>
+        return  <span className = 'update_task_title'>
                     <form onSubmit = {OnUpdateSubmit.bind(new_props)}>
                         <input type = 'text' name = 'update_text' value = {props.curText} onChange = {OnUpdateChange.bind(new_props)}/> 
                         <input type = 'hidden' name = 'task_id' value = {props.data.id}/>
@@ -42,8 +42,8 @@ function TaskDescription(props){
         let class_name = '';
         if (props.data.completed) { class_name = 'completed_task'}
         else {class_name = 'incompleted_task' }
-        return  <span className = {'task_desc ' + class_name}>
-                    {props.data.task_desc}
+        return  <span className = {'task_title ' + class_name}>
+                    {props.data.task_title}
                 </span>
     }
 }
@@ -54,14 +54,14 @@ function Task(props){
       e.dataTransfer.setData("status",props.data.status);
     }
 
-    const [curText,setCurText] = useState(props.data.task_desc)
+    const [curText,setCurText] = useState(props.data.task_title)
     return  <li 
               draggable 
               onDragStart={dragStartHandler} 
               //onClick={taskClickHandler}
               className = 'task_entry todo_component'
             >
-              <Link className = 'todo_link list-group-item'  to={`/tasks/${props.data.id}`}>
+              <Link className = 'todo_link list-group-item' to={`/tasks/${props.data.id}`}>
                 <TaskDescription data = {props.data} update_id = {props.update_id} curText = {curText} setCurText = {setCurText}></TaskDescription>
                 <Buttons data = {props.data}></Buttons>
               </Link>
@@ -137,34 +137,35 @@ function WholeList(){
       }
     }
 
-    return  <div className="task-columns">
-              <ul 
-                onDragOver={(e)=>{ e.preventDefault(); }} 
-                onDrop={(e)=>{dropHandler(e,'todo')}}
-                className = 'todo-group task-group list-group'
-              >
-                <div className='group-title'>Todo</div>
-                <CreateTask state = {current_state}></CreateTask>
-                {tasklist}
-              </ul>
-              
-              <ul 
-                onDragOver={(e)=>{ e.preventDefault(); }} 
-                onDrop={(e)=>{dropHandler(e,'in_progress')}}
-                className= 'in-progress-group task-group list-group'
-              >
-                <div className='group-title'>In progress</div>
-                {tasks_in_progress}
-              </ul>
-              
-              <ul 
-                onDragOver={(e)=>{ e.preventDefault(); }} 
-                onDrop={(e)=>{dropHandler(e,'done')}}
-                className= 'done-group task-group list-group'
-              >
-                <div className='group-title'>Done</div>
-                {tasks_done}
-              </ul>
-            </div>
+    return  (
+    <div className="task-columns">
+      <ul 
+        onDragOver={(e)=>{ e.preventDefault(); }} 
+        onDrop={(e)=>{dropHandler(e,'todo')}}
+        className = 'todo-group task-group list-group'
+      >
+        <div className='group-title'>Todo</div>
+        <CreateTask state = {current_state}></CreateTask>
+        {tasklist}
+      </ul>
+      
+      <ul 
+        onDragOver={(e)=>{ e.preventDefault(); }} 
+        onDrop={(e)=>{dropHandler(e,'in_progress')}}
+        className= 'in-progress-group task-group list-group'
+      >
+        <div className='group-title'>In progress</div>
+        {tasks_in_progress}
+      </ul>
+      
+      <ul 
+        onDragOver={(e)=>{ e.preventDefault(); }} 
+        onDrop={(e)=>{dropHandler(e,'done')}}
+        className= 'done-group task-group list-group'
+      >
+        <div className='group-title'>Done</div>
+        {tasks_done}
+      </ul>
+    </div>)
 }
 export default WholeList;

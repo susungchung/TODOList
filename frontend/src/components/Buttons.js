@@ -17,7 +17,7 @@ function onClickUpdate(event){
         this.dispatch({type:"CANCEL_UPDATE"})
     }
     else{
-        this.dispatch({type:"START_UPDATE",id:this.data.id,desc:this.data.task_desc})
+        this.dispatch({type:"START_UPDATE",id:this.data.id,desc:this.data.task_title})
     }
 }
 

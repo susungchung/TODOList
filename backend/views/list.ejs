@@ -22,10 +22,10 @@
         <li class = 'task_entry todo_component'> 
             <!--task description-->
             <% if (task.id == update_id) {%>
-                <span class = 'update_task_desc'>
-                    <!--input type = 'text' name = 'updated_task' value = '<%= task.task_desc %>'-->
+                <span class = 'update_task_title'>
+                    <!--input type = 'text' name = 'updated_task' value = '<%= task.task_title %>'-->
                     <form action = '/list/update' method = 'post' class = 'update_form'>  
-                        <input type = 'text' name = 'updated_task' value = '<%= task.task_desc %>'>
+                        <input type = 'text' name = 'updated_task' value = '<%= task.task_title %>'>
                         <input type = 'hidden' name = 'task_id' value = '<%= task.id %>'>
                         <input type = 'submit'>
                     </form>
@@ -36,9 +36,9 @@
                         'completed_task
                     <% } else { %>
                         'incompleted_task
-                    <% } %> task_desc'
+                    <% } %> task_title'
                 >
-                    <%=task.task_desc%>
+                    <%=task.task_title%>
                 </span>
             <% } %>
             <span class = 'task_buttons'>

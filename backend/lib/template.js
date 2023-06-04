@@ -27,7 +27,7 @@ exports.tasks = (tasks,create,update_task_id)=>{
             res+=`
             <tr>
                 <form action = '/list/update' method = 'post'>
-                    <td><textarea name = 'updated_task'>${sanitizeHtml(task.task_desc)}</textarea></td>
+                    <td><textarea name = 'updated_task'>${sanitizeHtml(task.task_title)}</textarea></td>
                     <td>
                         <input type = 'hidden' name  = task_id value = ${update_task_id}>
                         <input type = 'submit' value = 'update'>
@@ -35,7 +35,7 @@ exports.tasks = (tasks,create,update_task_id)=>{
                 </form>`;
         } 
         else{
-            var desc = `${sanitizeHtml(task.task_desc)}`;
+            var desc = `${sanitizeHtml(task.task_title)}`;
             if (task.completed){
                 desc = '<del>' + desc + '</del>'
             }

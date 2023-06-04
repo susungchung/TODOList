@@ -8,6 +8,8 @@ import Nav from './components/Nav';
 import Register from './components/Register';
 import Signin from './components/Signin';
 import WholeList from './components/WholeList';
+import TaskPage from './components/TaskPage';
+
 
 const initialState = 
 {
@@ -31,7 +33,7 @@ function reducer(currentState = initialState,action){
     // by default, newly created list goes to tasks_todo
     newState.tasks_todo.push({
       id:currentState.next_id,
-      task_desc: action.new_task,
+      task_title: action.new_task,
       completed:0,
       user_id:newState.user_id
     });    
@@ -71,7 +73,7 @@ function App() {
         <Routes>
           <Route path="/tasks" element={<WholeList />} />
           <Route path="/signin" element={ <div><Register /><Signin/></div>} />
-          <Route path="/tasks/:id" element={<div>page</div>}/>
+          <Route path="/tasks/:id" element={<div><TaskPage/></div>}/>
         </Routes>
       </Provider>
     </div>
