@@ -1,14 +1,25 @@
+.task-page{
+    width: 700px;
+    text-align: left;
+    margin:auto;
+    border: 1px solid black;
+}
+
+.task-page > div,article{
+    margin-left: 10px;
+    margin-top: 3px;
+    margin-right: 15px;
+}
 .page-title{
     text-align: left;
 }
 
 .page-top{
-    background-color: skyblue;
     display: flex;
+    
 }
 .page-top-right{
     margin-left:auto;
-    background-color: lightblue;
     display: flex;
     flex-direction: column;
 }

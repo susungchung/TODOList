@@ -1,10 +1,11 @@
 const express = require('express');
 const db =  require('../lib/db');
 const e = require('express');
+const cors = require('cors');
+
 const router = express.Router();
 
-
-
+router.options('*',cors());
 
 /* GET list page. */
 router.get('/', (req, res) => {
@@ -33,14 +34,6 @@ router.get('/:user_id',(req, res) => {
     })
 });
 
-
-router.get('/task/:task_id',(req,res)=>{
-    console.log('TASK');
-    db.query('SELECT * FROM tasks WHERE id = $1',[req.params.task_id],(error,query_result)=>{
-        if (error) throw error;
-        res.json({task_info: query_result.rows});
-    })
-})
 
 router.post('/create',(req,res)=>{
     var post = req.body;
@@ -98,24 +91,21 @@ router.post('/set_complete',(req,res)=>{
     });
 });
 
+router.get('/task/:task_id',(req,res)=>{
+    console.log('TASK');
+    db.query('SELECT * FROM tasks WHERE id = $1',[req.params.task_id],(error,query_result)=>{
+        if (error) throw error;
+        res.json({task_info: query_result.rows});
+    })
+})
 
-router.post('/set_todo',(req,res)=>{
-    var task_id = req.body.task_id;
-    db.query("UPDATE tasks SET status = 'todo' WHERE id = $1",[task_id],(error,query_result)=>{
-        if (error) throw error;
-        res.redirect('/list');
-    })
-});
-router.post('/set_in_progress',(req,res)=>{
-    var task_id = req.body.task_id;
-    db.query("UPDATE tasks SET status = 'in_progress' WHERE id = $1",[task_id],(error,query_result)=>{
-        if (error) throw error;
-        res.redirect('/list');
-    })
-});
-router.post('/set_done',(req,res)=>{
-    var task_id = req.body.task_id;
-    db.query("UPDATE tasks SET status = 'done' WHERE id = $1",[task_id],(error,query_result)=>{
+router.post('/task/status', (req,res)=>{
+    const {new_status,task_id} = req.body;
+    if (['todo','in_progress','done'].indexOf(new_status) === -1){
+        return res.status(400);
+    }
+
+    db.query("UPDATE tasks SET status = $1 WHERE id = $2",[new_status,task_id],(error,query_result)=>{
         if (error) throw error;
         res.redirect('/list');
     })

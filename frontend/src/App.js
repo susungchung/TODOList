@@ -1,6 +1,7 @@
 import {Provider} from 'react-redux';
 import {configureStore} from '@reduxjs/toolkit'
 import {Routes, Route} from "react-router-dom"
+import {useLocation} from 'react-router-dom'
 
 import './App.css';
 
@@ -65,15 +66,29 @@ function reducer(currentState = initialState,action){
 
 const store = configureStore({reducer:reducer});
 
+function Page(){
+  const location = useLocation();
+  const search = location.search;
+  if(search) {
+    const searchParam = new URLSearchParams(search);
+    if (searchParam.has('id')){
+      return <div><TaskPage id={searchParam.get('id')}/></div>;
+    }
+    return <div>ERROR WRONG URL</div>;
+  }
+  return <WholeList/>
+}
+
+
 function App() {
   return (
     <div className="App">
       <Provider store = {store}>
       <Nav></Nav>
         <Routes>
-          <Route path="/tasks" element={<WholeList />} />
+          <Route path="/tasks" element={<Page />} />
           <Route path="/signin" element={ <div><Register /><Signin/></div>} />
-          <Route path="/tasks/:id" element={<div><TaskPage/></div>}/>
+          {/* <Route path="/tasks?id=" element={<div><TaskPage/></div>}/> */}
         </Routes>
       </Provider>
     </div>

@@ -61,7 +61,7 @@ function Task(props){
               //onClick={taskClickHandler}
               className = 'task_entry todo_component'
             >
-              <Link className = 'todo_link list-group-item' to={`/tasks/${props.data.id}`}>
+              <Link className = 'todo_link list-group-item' to={`/tasks?id=${props.data.id}`}>
                 <TaskDescription data = {props.data} update_id = {props.update_id} curText = {curText} setCurText = {setCurText}></TaskDescription>
                 <Buttons data = {props.data}></Buttons>
               </Link>
@@ -121,13 +121,13 @@ function WholeList(){
       const task_id = e.dataTransfer.getData('id');
 
       if (oldStatus !== statusValue){
-        const data = {task_id:task_id};
-        fetch(
-          process.env.REACT_APP_SERVER_URL+`list/set_${statusValue}`,
-          {method:"post",
+        const data = {task_id:task_id,new_status:statusValue};
+        fetch( process.env.REACT_APP_SERVER_URL+`list/task/status`,{
+          method:"post",
           headers:{'Content-Type': 'application/json'},
           body:JSON.stringify(data),
-          mode: 'cors'})
+          mode: 'cors'
+        })
         .then(res=>{
           return res.json()
         })

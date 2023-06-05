@@ -3,6 +3,8 @@ import {useState} from 'react';
 
 import './TaskPage.css'
 
+
+// change to async
 function TaskPage(props){
     const location = useLocation();
     const [title,setTitle] = useState('');
@@ -10,7 +12,7 @@ function TaskPage(props){
     const [taskDesc, setTaskDesc] = useState("No Description");
     console.log("TASK PAGE",location)
     // TODO: add check if current user is authorized to view this task
-    fetch(process.env.REACT_APP_SERVER_URL+"list/task/"+10,{method:'get'})
+    fetch(process.env.REACT_APP_SERVER_URL+"list/task/"+props.id,{method:'get'})
     .then((res)=>{
         console.log(res);
         if (res.ok) return res.json();
@@ -39,16 +41,17 @@ function TaskPage(props){
 
 
     return (
-    <div>
-        <div className = 'page-top'>
-            <div className = 'page-title'>{title}</div>
-            <div className = 'page-top-right'>
-                <div className = 'page-buttons'>Buttons (edit, delete)</div>
-                <div className = 'page-date'>{dateCreated}</div>
+        <div className = 'task-page'>
+            <div className = 'page-top'>
+                <div className = 'page-title'>{title}</div>
+                <div className = 'page-top-right'>
+                    <div className = 'page-buttons'>Buttons (edit, delete)</div>
+                    <div className = 'page-date'>Created on: {dateCreated}</div>
+                </div>
             </div>
+            <article className = 'page-description'>{taskDesc}</article>
+            <div className = 'page-comment'>Comment</div>
         </div>
-        <article className = 'page-description'>{taskDesc}</article>
-        <div className = 'page-comment'>Comment</div>
-    </div>)
+    )
 };
 export default TaskPage;
