@@ -39,22 +39,19 @@ function CompleteButton(props){
     )
 }
 
-function onCompleteSubmit(event){
+async function onCompleteSubmit(event){
     event.preventDefault();
     const data = {task_id:event.target.task_id.value, completed:event.target.completed.value}
     console.log("data:",data);
-    fetch(
+    const res = await fetch(
         process.env.REACT_APP_SERVER_URL+'list/set_done',
         {method:"post",
         headers:{'Content-Type': 'application/json'},
         body:JSON.stringify(data),
         mode: 'cors'})
-    .then(res=>{
-            return res.json()
-        })
-    .then(data=>{
-            this.dispatch({type:"READ",data:data})
-        });
+    
+    const res_json = res.json();
+    this.dispatch({type:"READ",data:res_json})
 }
 
 function DeleteButton(props) {

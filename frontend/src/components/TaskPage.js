@@ -8,38 +8,43 @@ function TaskPage(props){
     const [title,setTitle] = useState('');
     const [dateCreated,setDateCreated] = useState();
     const [taskDesc, setTaskDesc] = useState("No Description");
+    const [error,setError] = useState(null);
 
     
     // TODO: add check if current user is authorized to view this task
-    useEffect(()=>{
-        fetch(process.env.REACT_APP_SERVER_URL+"list/task/"+props.id,{method:'get'})
-        .then((res)=>{
-            console.log(res);
-            if (res.ok) return res.json();
-            throw res;
-        }).then(data =>{
-            const task_info = data.task_info[0];
-            // extract id and task_title to create title of the page
-            setTitle('task-'+task_info.id + ': ' +task_info.task_title);
-            
-            // convert timestamp into date
-            const dateOption = {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-            }
-            const newDate = new Intl.DateTimeFormat('en-US',dateOption).format(Date.parse(task_info.created));
-            setDateCreated(newDate);
+    useEffect( ()=>{
+        async function fetchData(){
+            try{
+                const res = await fetch(process.env.REACT_APP_SERVER_URL+"list/task/"+props.id,{method:'get'})
+                const data = await res.json();
+                const task_info = data.task_info[0];
+                // extract id and task_title to create title of the page
+                setTitle('task-'+task_info.id + ': ' +task_info.task_title);
+                
+                // convert timestamp into date
+                const dateOption = {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric"
+                }
+                const newDate = new Intl.DateTimeFormat('en-US',dateOption).format(Date.parse(task_info.created));
+                setDateCreated(newDate);
 
-            // set task description
-            if (task_info.task_desc) {
-                setTaskDesc(task_info.task_desc);
+                // set task description
+                if (task_info.task_desc) {
+                    setTaskDesc(task_info.task_desc);
+                }
             }
-        }).catch(error=>{
-            console.error(error);
+            catch (error){
+                setError(error);
+            }
         }
-    )},[props.id]);
+        fetchData()
+    },[props.id]);
 
+    if (error){
+        return <div>{error.message}</div>
+    }
 
     return (
         <div className = 'task-page'>
