@@ -1,46 +1,41 @@
 .task-columns{
+  background-color: black;
   display: flex;
-  margin-right:100px;
-  margin-left:100px;
+  padding-bottom: 2rem;
+  justify-content: center;
 }
 .task-columns > ul{
-  background-color: white;
-  border-radius: 15px;
-  border-color:lightgray;
-  border-style: solid;
-  border-width: 1px;
-  display:flex;
-  flex-direction: column;
+  background-color: #828290;
+  border-radius: 0.7em;
+  border:1px solid black;
+  color:white;
   align-items: stretch;
-  padding-left:20px;
-  padding-right:20px;
+  padding-left:1em;
+  padding-right:1em;
   padding-bottom:20px;
   padding-top:20px;
-  margin-right:10px;
-  margin-left:10px;
-  margin-top:30px;
-  width: 340px;
+  margin-right:1em;
+  margin-left:1em;
+  margin-top:2em;
+  width: 25em;
 }
 
 .todo_component{
   display: flex;
   background-color: white;
   border-radius: 7px;
-  margin-top:0px;
-  padding:3px;
-  padding-left:10px;
-  width:300px;
+  margin-top:0.3em;
+  width:stretch;
   height:100px;
 }
 
 .todo_link{
-  display: flex;
-  flex-direction: row;
-  align-content: flex-end;
-  width:300px;
-  height:100px;
+  width:stretch;
+  height:auto;
   text-align: left;
+  /* border:1px solid black; */
 }
+
 
 .task_forms{
   display: inline-block;
@@ -103,6 +98,8 @@
   }
   .task-columns{
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
 }

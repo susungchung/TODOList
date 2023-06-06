@@ -13,6 +13,7 @@ function OnUpdateChange(event){
 }
 
 function OnUpdateSubmit(event){
+
   //fetch updated data to server
   event.preventDefault();
   console.log(event)
@@ -55,15 +56,15 @@ function Task(props){
     }
 
     const [curText,setCurText] = useState(props.data.task_title)
-    return  <li 
-              draggable 
-              onDragStart={dragStartHandler} 
-              //onClick={taskClickHandler}
-              className = 'task_entry todo_component'
-            >
-              <Link className = 'todo_link list-group-item' to={`/tasks?id=${props.data.id}`}>
+    return  <li className = 'task_entry todo_component'>
+              <Link 
+                draggable 
+                onDragStart={dragStartHandler} 
+                className = 'todo_link list-group-item' 
+                to={`/tasks?id=${props.data.id}`}
+              >
                 <TaskDescription data = {props.data} update_id = {props.update_id} curText = {curText} setCurText = {setCurText}></TaskDescription>
-                <Buttons data = {props.data}></Buttons>
+                {/* <Buttons data = {props.data}></Buttons> */}
               </Link>
             </li>
 }
@@ -145,7 +146,7 @@ function WholeList(){
         className = 'todo-group task-group list-group'
       >
         <div className='group-title'>Todo</div>
-        <CreateTask state = {current_state}></CreateTask>
+        {/* <CreateTask state = {current_state}></CreateTask> */}
         {tasklist}
       </ul>
       
