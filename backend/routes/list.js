@@ -92,14 +92,13 @@ router.post('/set_complete',(req,res)=>{
 });
 
 router.get('/task/:task_id',(req,res)=>{
-    console.log('TASK');
     db.query('SELECT * FROM tasks WHERE id = $1',[req.params.task_id],(error,query_result)=>{
         if (error) throw error;
         res.json({task_info: query_result.rows});
     })
-})
+});
 
-router.post('/task/status', (req,res)=>{
+router.patch('/task/status', (req,res)=>{
     const {new_status,task_id} = req.body;
     if (['todo','in_progress','done'].indexOf(new_status) === -1){
         return res.status(400);
@@ -107,7 +106,7 @@ router.post('/task/status', (req,res)=>{
 
     db.query("UPDATE tasks SET status = $1 WHERE id = $2",[new_status,task_id],(error,query_result)=>{
         if (error) throw error;
-        res.redirect('/list');
+        res.redirect(303,'/list')
     })
 });
 

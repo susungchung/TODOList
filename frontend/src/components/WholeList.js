@@ -124,7 +124,7 @@ function WholeList(){
       if (oldStatus !== statusValue){
         const data = {task_id:task_id,new_status:statusValue};
         fetch( process.env.REACT_APP_SERVER_URL+`list/task/status`,{
-          method:"post",
+          method:"PATCH",
           headers:{'Content-Type': 'application/json'},
           body:JSON.stringify(data),
           mode: 'cors'

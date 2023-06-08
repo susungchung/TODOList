@@ -8,6 +8,7 @@ router.get('/', (req, res, next) => {
       req.session.num = 1;
   } else {
       req.session.num =  req.session.num + 1;
+      if (req.session.num > 5) req.session.num = 0;
   }
   res.send(`Views : ${req.session.num}`);
 });
