@@ -48,7 +48,9 @@ function onSigninSubmit(event){
         process.env.REACT_APP_SERVER_URL+'auth/signin',
         {method:"post",headers:{'Content-Type': 'application/json'},
         body:JSON.stringify(data),
-        mode: 'cors'})
+        mode: 'cors',
+        credentials: 'include'
+    })
     .then(res=>{return res.json()}
     ).catch(
         (error) => {
@@ -58,10 +60,10 @@ function onSigninSubmit(event){
     ).then(res=>{
         console.log(res);
         let username = ""
-        if (res.status){
+        if (res.success){
             this.setSigninMessage(res.username);
             username = res.username;
-            this.dispatch({type:"UPDATE_SIGNIN_INFO",signinStatus:res.status,username:username,user_id:res.user_id});
+            this.dispatch({type:"UPDATE_SIGNIN_INFO",signinStatus:res.success,username:username,user_id:res.user_id});
             this.navigate("/tasks");
         }
         else{

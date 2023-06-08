@@ -43,12 +43,13 @@ async function onCompleteSubmit(event){
     event.preventDefault();
     const data = {task_id:event.target.task_id.value, completed:event.target.completed.value}
     console.log("data:",data);
-    const res = await fetch(
-        process.env.REACT_APP_SERVER_URL+'list/set_done',
-        {method:"post",
+    const res = await fetch( process.env.REACT_APP_SERVER_URL+'list/set_done',{
+        method:"post",
         headers:{'Content-Type': 'application/json'},
         body:JSON.stringify(data),
-        mode: 'cors'})
+        mode: 'cors',
+        credentials: 'include'
+    })
     
     const res_json = res.json();
     this.dispatch({type:"READ",data:res_json})
@@ -77,7 +78,7 @@ function onDeleteSubmit(event){
     // make call to the backend
     const data = {task_id : event.target.task_id.value}
     console.log("data:",data);
-    fetch(process.env.REACT_APP_SERVER_URL+'list/delete',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors'})
+    fetch(process.env.REACT_APP_SERVER_URL+'list/delete',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors',credentials: 'include'})
     .then(res=>{return res.json()}).then(data=>{this.dispatch({type:"READ",data:data})});
 }
 

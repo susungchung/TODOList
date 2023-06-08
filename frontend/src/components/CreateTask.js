@@ -25,7 +25,7 @@ function onCreateSubmit(event){
     // make call to the backend
     const data = {new_task:event.target.new_task.value,username:username}
     //console.log('onCreateSubmit',JSON.stringify(data));
-    fetch(process.env.REACT_APP_SERVER_URL+'list/create',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors'})
+    fetch(process.env.REACT_APP_SERVER_URL+'list/create',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors',credentials: 'include'})
     .then(res=>{return res.json()}).then(data=>{this.dispatch({type:"READ",data:data})})
     event.target.reset();
 }

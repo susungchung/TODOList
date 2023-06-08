@@ -15,7 +15,7 @@ function TaskPage(props){
     useEffect( ()=>{
         async function fetchData(){
             try{
-                const res = await fetch(process.env.REACT_APP_SERVER_URL+"list/task/"+props.id,{method:'get'})
+                const res = await fetch(process.env.REACT_APP_SERVER_URL+"list/task/"+props.id,{method:'get',credentials: 'include'})
                 const data = await res.json();
                 const task_info = data.task_info[0];
                 // extract id and task_title to create title of the page

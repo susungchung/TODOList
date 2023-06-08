@@ -15,5 +15,14 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users(
     id          SERIAL PRIMARY KEY,
     name        VARCHAR(20) NOT NULL,
-	password	VARCHAR(25) NOT NULL
+	password	VARCHAR(60) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS user_sessions(
+	sid SERIAL PRIMARY KEY,
+    sess JSON,
+    expire timestamp,
+    signed_in BOOLEAN,
+	user_id INT NOT NULL,
+	username VARCHAR(20) NOT NULL
 );

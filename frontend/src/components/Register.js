@@ -32,7 +32,7 @@ function onRegisterSubmit(event){
     // make call to the backend
     const data = {username : event.target.username.value, password : event.target.password.value}
     console.log(JSON.stringify(data));
-    fetch(process.env.REACT_APP_SERVER_URL+'auth/register',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors'})
+    fetch(process.env.REACT_APP_SERVER_URL+'auth/register',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors',credentials: 'include'})
     .then(res=>{return res.json()}).catch(
         (error) => {
             console.error('Error:', error);

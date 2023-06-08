@@ -1,8 +1,8 @@
-const {Client} = require('pg');
+const {Pool} = require('pg');
 //const db_config = require('../config/db_config');
 const db_config = require('../db_config');
 
-var connection = new Client({
+var connection = new Pool({
     host:db_config.host,
     user:db_config.user,
     port:db_config.port,

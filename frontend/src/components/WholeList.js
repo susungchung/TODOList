@@ -19,7 +19,7 @@ function OnUpdateSubmit(event){
   console.log(event)
   const data = {updated_task : event.target.update_text.value,task_id : event.target.task_id.value}
   console.log(data)
-  fetch(process.env.REACT_APP_SERVER_URL+'list/update',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors'})
+  fetch(process.env.REACT_APP_SERVER_URL+'list/update',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors',credentials: 'include'})
   .then(res=>{return res.json()}).then(data=>{console.log(data)});
 
   event.target.reset();
@@ -80,29 +80,68 @@ function populate_tasks_list(tasks,update_id){
 function WholeList(){
     const dispatch = useDispatch();
     const current_state = useSelector(state=>state);
-    let user_id = ''
-    let signinStatus = false;
-    if (current_state){
-      signinStatus = current_state.signinStatus;
-      if (signinStatus) user_id = current_state.user_id;
-    }
+    // let user_id = ''
+    // let signinStatus = false;
+    // if (current_state){
+    //   signinStatus = current_state.signinStatus;
+    //   if (signinStatus) user_id = current_state.user_id;
+    // }
+    useEffect(()=>{
+      async function getSigninStatus() {
+        try{
+          const status_res = await fetch(process.env.REACT_APP_SERVER_URL+'auth/signin/status',{method:'get',credentials: 'include'})
+          const status_data = await status_res.json();
 
-    useEffect(
-      ()=>{
-        fetch(process.env.REACT_APP_SERVER_URL+"list/"+user_id,{method:'get'})
-        .then((res)=>{
-          console.log(res);
-          if (res.ok){
-            return res.json();
+          const updated_info = {
+            signinStatus:status_data.success, 
+            username:status_data.username,
+            user_id:status_data.user_id
           }
-          throw res;
-        }).then(data =>{
-          dispatch({type:"READ",data:data});
-        }).catch(error=>{
-          console.error(error);
-        }).finally(()=>{});
-    },[dispatch,user_id]);
-    
+          dispatch({type:'UPDATE_SIGNIN_INFO',data:updated_info})
+
+          if (!status_data.success){
+            // TODO: make it redirect to signin page
+            console.log('not signed in',status_data)
+            return false;
+          }
+          // if (status_data.user_id !== user_id){
+          //   console.log("user data doesn't match" )
+          //   return false;
+          // }
+          
+          return true;
+        }
+        catch (error){
+          console.log("error while getting signin status",error)
+          throw(error)
+        }
+      }
+
+      async function getTasks(){
+        const signinStatus = await getSigninStatus()
+        if (!signinStatus) {
+          console.log('signin failed')
+          return
+        } 
+
+        console.log('attemp to query tasks')
+        try{
+          const tasks_res = await fetch(process.env.REACT_APP_SERVER_URL+'list',{method:'get',credentials: 'include'});
+          const tasks_data = await tasks_res.json();
+          if (!tasks_data.success){
+            console.log('task query failed')
+            return
+          }
+          dispatch({type:"READ",data:tasks_data});
+        }
+        catch(error){
+          console.log("error while loading tasks",error);
+          throw(error);
+        }
+      }
+      getTasks();
+    },[dispatch]);
+  
     
 
     let tasklist,tasks_in_progress,tasks_done = [];
@@ -127,7 +166,8 @@ function WholeList(){
           method:"PATCH",
           headers:{'Content-Type': 'application/json'},
           body:JSON.stringify(data),
-          mode: 'cors'
+          mode: 'cors',
+          credentials: 'include'
         })
         .then(res=>{
           return res.json()

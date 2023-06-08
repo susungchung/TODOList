@@ -86,8 +86,8 @@ function App() {
       <Provider store = {store}>
       <Nav></Nav>
         <Routes>
-          <Route path="/tasks" element={<body><Page /></body>} />
-          <Route path="/signin" element={ <body><Register /><Signin/></body>} />
+          <Route path="/tasks" element={<div><Page /></div>} />
+          <Route path="/signin" element={ <div><Register /><Signin/></div>} />
           {/* <Route path="/tasks?id=" element={<div><TaskPage/></div>}/> */}
         </Routes>
       </Provider>
