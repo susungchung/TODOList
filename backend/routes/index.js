@@ -3,7 +3,6 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-  //res.render('index.ejs', { title: 'Expresss' });
   if(req.session.num === undefined){
       req.session.num = 1;
   } else {

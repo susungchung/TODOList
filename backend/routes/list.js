@@ -9,6 +9,9 @@ router.options('*',cors());
 
 /* GET list page. */
 router.get('/', (req, res) => {
+    // if (!(req.session.signed_in)){
+    //     return res.json({success:false,message:"not signed in"})
+    // }
     db.query("SELECT id,task_title,completed,user_id,status FROM tasks ORDER BY id ASC",(error,query_result)=>{
         if (error) throw error;
         res.json({ title: 'task lists',  tasks: query_result.rows, update_id: -1});
@@ -27,12 +30,12 @@ function getUserIDFromUsername(req,res,next){
     next();
 }
 
-router.get('/:user_id',(req, res) => {
-    db.query("SELECT * FROM tasks WHERE user_id = $1 ORDER BY id ASC",[req.params.user_id],(error,query_result)=>{
-        if (error) throw error;
-        res.json({ title: 'task lists',  tasks: query_result.rows, update_id: -1});
-    })
-});
+// router.get('/:user_id',(req, res) => {
+//     db.query("SELECT * FROM tasks WHERE user_id = $1 ORDER BY id ASC",[req.params.user_id],(error,query_result)=>{
+//         if (error) throw error;
+//         res.json({ title: 'task lists',  tasks: query_result.rows, update_id: -1});
+//     })
+// });
 
 
 router.post('/create',(req,res)=>{

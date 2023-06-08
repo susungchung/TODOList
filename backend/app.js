@@ -7,7 +7,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const session = require('express-session');
 
-
+require('dotenv').config()
 
 const db = require('./lib/db.js');
 
@@ -25,13 +25,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-
-app.use(session({secret: 'fswtajkl@a2q!sgse',
-resave: false,
-saveUninitialized: true}));
+//session
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+}));
 
 app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine','ejs');
 
 // routers
 const indexRouter = require('./routes/index');
@@ -44,7 +45,7 @@ app.use('/users', usersRouter);
 app.use('/list', listRouter);
 app.use('/auth',authRouter);
 
-app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(express.static(path.join(__dirname, 'public')));
 
 module.exports = app;

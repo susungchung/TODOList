@@ -2,5 +2,6 @@ backend/node_modules/
 backend/config/db_config.js
 backend/config/db_config.txt
 backend/db_config.js
+backend/.env
 node_modules/
 frontend_backup
