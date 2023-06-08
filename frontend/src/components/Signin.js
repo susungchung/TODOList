@@ -63,7 +63,7 @@ function onSigninSubmit(event){
         if (res.success){
             this.setSigninMessage(res.username);
             username = res.username;
-            this.dispatch({type:"UPDATE_SIGNIN_INFO",signinStatus:res.success,username:username,user_id:res.user_id});
+            this.dispatch({type:"UPDATE_SIGNIN_INFO",data:{signinStatus:res.success,username:username,user_id:res.user_id}});
             this.navigate("/tasks");
         }
         else{

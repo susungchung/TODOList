@@ -34,7 +34,7 @@ function reducer(currentState = initialState,action){
     // by default, newly created list goes to tasks_todo
     newState.tasks_todo.push({
       id:currentState.next_id,
-      task_title: action.new_task,
+      task_title: action.data.new_task,
       completed:0,
       user_id:newState.user_id
     });    
@@ -50,7 +50,7 @@ function reducer(currentState = initialState,action){
     return newState;
   }
   if (action.type === 'START_UPDATE'){
-    const newState = {...currentState,update_id:action.id,temp_desc:action.desc};
+    const newState = {...currentState,update_id:action.data.id,temp_desc:action.data.desc};
     console.log(newState.temp_desc);
     return newState;
   }
@@ -59,9 +59,15 @@ function reducer(currentState = initialState,action){
     return newState;
   }
   if (action.type === 'UPDATE_SIGNIN_INFO'){
-    const newState = {...currentState,signinStatus: action.signinStatus,username: action.username,user_id:action.user_id};
+    const newState = {...currentState,signinStatus: action.data.signinStatus,username: action.data.username,user_id:action.data.user_id};
     return newState;
   }
+  if (action.type === 'SIGNOUT'){
+    const newState = {...initialState};
+    console.log(newState);
+    return newState;
+  }
+
 }
 
 const store = configureStore({reducer:reducer});

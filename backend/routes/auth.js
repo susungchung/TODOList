@@ -68,11 +68,17 @@ router.post('/signin',(req,res) => {
 });
 
 router.get('/signin/status',(req,res)=>{
-  console.log(req.session);
   if (!req.session.signed_in){
     return res.json({success:false});
   }
   res.json({success:true,username:req.session.username,user_id:req.session.user_id});
+})
+
+router.post('/signout',(req,res)=>{
+  req.session.destroy((err)=>{
+    if (err) throw err;
+    res.json({success:true})
+  })
 })
 
 module.exports = router;
