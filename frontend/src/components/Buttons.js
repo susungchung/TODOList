@@ -2,23 +2,23 @@ import {useDispatch, useSelector} from 'react-redux';
 
 function UpdateButton(props){
     const dispatch = useDispatch();
-    const update_id = useSelector((state)=>state.update_id);
-    const new_props = {...props,dispatch:dispatch,update_id:update_id}
+    const task_id = props.task_id;
+
+    function onClickUpdate(event){
+        event.preventDefault();
+        if (this.update_id === this.data.id){
+            dispatch({type:"CANCEL_UPDATE"})
+        }
+        else{
+            dispatch({type:"START_UPDATE",id:this.data.id,desc:this.data.task_title})
+        }
+    }
+
     return (
-        <form className = 'update_task task_forms' onClick = {onClickUpdate.bind(new_props)}>
+        <form className = 'update_task task_forms' onClick = {onClickUpdate}>
             <span className = 'fa fa-edit'></span>
         </form>
     )
-}
-
-function onClickUpdate(event){
-    event.preventDefault();
-    if (this.update_id === this.data.id){
-        this.dispatch({type:"CANCEL_UPDATE"})
-    }
-    else{
-        this.dispatch({type:"START_UPDATE",id:this.data.id,desc:this.data.task_title})
-    }
 }
 
 
@@ -44,7 +44,7 @@ async function onCompleteSubmit(event){
     const data = {task_id:event.target.task_id.value, completed:event.target.completed.value}
     console.log("data:",data);
     const res = await fetch( process.env.REACT_APP_SERVER_URL+'list/set_done',{
-        method:"post",
+        method:"POST",
         headers:{'Content-Type': 'application/json'},
         body:JSON.stringify(data),
         mode: 'cors',

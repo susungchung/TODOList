@@ -59,7 +59,9 @@ function reducer(currentState = initialState,action){
     return newState;
   }
   if (action.type === 'UPDATE_SIGNIN_INFO'){
-    const newState = {...currentState,signinStatus: action.data.signinStatus,username: action.data.username,user_id:action.data.user_id};
+    console.log(action.data)
+    const newState = {...currentState,signinStatus: action.data.success,username: action.data.username,user_id:action.data.user_id};
+    console.log(newState)
     return newState;
   }
   if (action.type === 'SIGNOUT'){

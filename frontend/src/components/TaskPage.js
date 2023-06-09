@@ -1,4 +1,6 @@
 import {useEffect, useState} from 'react';
+import Buttons from './Buttons';
+
 
 import './TaskPage.css'
 
@@ -15,7 +17,9 @@ function TaskPage(props){
     useEffect( ()=>{
         async function fetchData(){
             try{
-                const res = await fetch(process.env.REACT_APP_SERVER_URL+"list/task/"+props.id,{method:'get',credentials: 'include'})
+                const fetchURL = process.env.REACT_APP_SERVER_URL+"list/task/"+props.id
+                const fetchOption = {method:'get',credentials: 'include'}
+                const res = await fetch(fetchURL,fetchOption);
                 const data = await res.json();
                 const task_info = data.task_info[0];
                 // extract id and task_title to create title of the page
@@ -39,6 +43,8 @@ function TaskPage(props){
                 setError(error);
             }
         }
+
+
         fetchData()
     },[props.id]);
 
@@ -52,6 +58,7 @@ function TaskPage(props){
                 <div className = 'page-title'>{title}</div>
                 <div className = 'page-top-right'>
                     <div className = 'page-buttons'>Buttons (edit, delete)</div>
+                    {/* <Buttons task_id={props.id}></Buttons> */}
                     <div className = 'page-date'>Created on: {dateCreated}</div>
                 </div>
             </div>

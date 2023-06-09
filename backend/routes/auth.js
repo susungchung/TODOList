@@ -2,7 +2,6 @@ const express = require('express');
 const db =  require('../lib/db');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const session = require('express-session');
 
 // for encrypting
 const saltRounds = 10;
@@ -46,7 +45,7 @@ router.post('/signin',(req,res) => {
         if (error) throw error;
 
         // no such user exist
-        if (!(query_result.rowCount != 0)){
+        if (query_result.rowCount === 0){
           return res.json({message:"User doesn't exist",success :false});
         }
 

@@ -1,4 +1,5 @@
 import "./Nav.css"
+import getSigninStatus from "../lib/getSigninStatus";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate , useMatch, useResolvedPath } from "react-router-dom"
 
@@ -40,9 +41,44 @@ function Nav(){
     }
   }
 
+  async function handleMain(){
+    const data = await getSigninStatus();
+    // if signed in redirect to tasks
+    if(data.success) {
+      dispatch({type:'UPDATE_SIGNIN_INFO',data:data});
+      navigate('/tasks');
+      return
+    }
+    // else redirect to signin page
+    dispatch({type:'SIGNOUT'})
+    navigate('/signin');
+  }
+
+  const handleTest = ()=>{
+    const data = {
+      task_title: 'create priority between tasks',
+      description:"none",
+      id:10,
+      completed: false,
+      status:'in_progress'
+    }
+    const fetchURL = process.env.REACT_APP_SERVER_URL+"list/10/update"
+    const fetchOption  = {
+      method:"PATCH",
+      headers:{'Content-Type': 'application/json'},
+      body:JSON.stringify(data),
+      mode: 'cors',
+      credentials: 'include'
+    }
+    fetch(fetchURL,fetchOption);
+  }
+
   return (
       <nav className="nav">
-        <Link to="/">List</Link>
+        
+        <div className='nav-main' onClick = {handleMain}>To Main</div>
+        {/* <div onClick = {handleTest}> updateTest</div> */}
+        {/* <Link to={signinStatus?"/tasks":"/signin"}>List</Link> */}
         <ul>
           {signinStatus?<div className='nav-username'>{username}</div>:null}
           <li className='nav-auth' onClick = {handleAuth}>

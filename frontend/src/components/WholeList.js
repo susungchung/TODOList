@@ -2,10 +2,13 @@ import "./WholeList.css"
 import { useEffect } from 'react';
 import { useState } from 'react';
 import {useSelector,useDispatch} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 import Buttons from "./Buttons";
 import CreateTask from "./CreateTask"; 
+
+import getSigninStatus from "../lib/getSigninStatus";
 
 function OnUpdateChange(event){
     event.preventDefault();
@@ -80,50 +83,18 @@ function populate_tasks_list(tasks,update_id){
 function WholeList(){
     const dispatch = useDispatch();
     const current_state = useSelector(state=>state);
-    // let user_id = ''
-    // let signinStatus = false;
-    // if (current_state){
-    //   signinStatus = current_state.signinStatus;
-    //   if (signinStatus) user_id = current_state.user_id;
-    // }
-    useEffect(()=>{
-      async function getSigninStatus() {
-        try{
-          const status_res = await fetch(process.env.REACT_APP_SERVER_URL+'auth/signin/status',{method:'get',credentials: 'include'})
-          const status_data = await status_res.json();
+    const navigate = useNavigate();
 
-          const updated_info = {
-            signinStatus:status_data.success, 
-            username:status_data.username,
-            user_id:status_data.user_id
-          }
-          dispatch({type:'UPDATE_SIGNIN_INFO',data:updated_info})
-
-          if (!status_data.success){
-            // TODO: make it redirect to signin page
-            console.log('not signed in',status_data)
-            return false;
-          }
-          // if (status_data.user_id !== user_id){
-          //   console.log("user data doesn't match" )
-          //   return false;
-          // }
-          
-          return true;
-        }
-        catch (error){
-          console.log("error while getting signin status",error)
-          throw(error)
-        }
-      }
-
+     useEffect(()=>{
       async function getTasks(){
-        const signinStatus = await getSigninStatus()
-        if (!signinStatus) {
-          console.log('signin failed')
-          return
+        const status_data = await getSigninStatus()
+        if (!status_data.success) {
+          console.log('not signed in',status_data)
+          dispatch({type:'SIGNOUT'});
+          navigate('/signin');
+          return false;
         } 
-
+        dispatch({type:'UPDATE_SIGNIN_INFO',data:status_data})
         console.log('attemp to query tasks')
         try{
           const tasks_res = await fetch(process.env.REACT_APP_SERVER_URL+'list',{method:'get',credentials: 'include'});
@@ -140,7 +111,7 @@ function WholeList(){
         }
       }
       getTasks();
-    },[dispatch]);
+    },[dispatch,navigate]);
   
     
 
