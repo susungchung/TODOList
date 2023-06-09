@@ -59,10 +59,8 @@ function onSigninSubmit(event){
         }
     ).then(res=>{
         console.log(res);
-        let username = ""
         if (res.success){
             this.setSigninMessage(res.username);
-            username = res.username;
             this.dispatch({type:"UPDATE_SIGNIN_INFO",data:res});
             this.navigate("/tasks");
         }

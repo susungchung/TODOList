@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import Buttons from './Buttons';
 
 
@@ -10,8 +11,9 @@ function TaskPage(props){
     const [title,setTitle] = useState('');
     const [dateCreated,setDateCreated] = useState();
     const [taskDesc, setTaskDesc] = useState("No Description");
+    const [taskStatus,setTaskStatus] = useState('');
     const [error,setError] = useState(null);
-
+    const navigate = useNavigate();
     
     // TODO: add check if current user is authorized to view this task
     useEffect( ()=>{
@@ -21,6 +23,12 @@ function TaskPage(props){
                 const fetchOption = {method:'get',credentials: 'include'}
                 const res = await fetch(fetchURL,fetchOption);
                 const data = await res.json();
+                console.log(data);
+                if (!data.success){
+                    alert(data.message);
+                    navigate(-1);
+                    return false
+                }
                 const task_info = data.task_info[0];
                 // extract id and task_title to create title of the page
                 setTitle('task-'+task_info.id + ': ' +task_info.task_title);
@@ -34,10 +42,13 @@ function TaskPage(props){
                 const newDate = new Intl.DateTimeFormat('en-US',dateOption).format(Date.parse(task_info.created));
                 setDateCreated(newDate);
 
+                setTaskStatus(task_info.status);
+
                 // set task description
                 if (task_info.task_desc) {
                     setTaskDesc(task_info.task_desc);
                 }
+                return true
             }
             catch (error){
                 setError(error);
@@ -46,7 +57,7 @@ function TaskPage(props){
 
 
         fetchData()
-    },[props.id]);
+    },[props.id,navigate]);
 
     if (error){
         return <div>{error.message}</div>
@@ -62,6 +73,7 @@ function TaskPage(props){
                     <div className = 'page-date'>Created on: {dateCreated}</div>
                 </div>
             </div>
+            <div>Current Status: {taskStatus}</div>
             <article className = 'page-description'>{taskDesc}</article>
             <div className = 'page-comment'>Comment</div>
         </div>

@@ -25,3 +25,6 @@
     display: flex;
     flex-direction: column;
 }
+.page-description{
+    margin-top: 5em;
+}
