@@ -26,5 +26,13 @@
     flex-direction: column;
 }
 .page-description{
-    margin-top: 5em;
+    margin-top: 3em;
+    margin-bottom:1em;
+    white-space: pre-wrap;
+}
+.page-buttons{
+}
+
+.page-buttons > *{
+    margin-right:3px;
 }

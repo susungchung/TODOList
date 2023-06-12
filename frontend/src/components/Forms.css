@@ -1,0 +1,26 @@
+.form > label, .dropdown > label{
+    color:white;
+}
+
+.dropdowns{
+    margin-top:1.5em
+}
+
+.new-task-description{
+    margin-top:1.5em
+}
+
+.form{
+    width:750px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.form-buttons{
+    float:right;
+    margin-top: 10px;
+}
+
+.form-buttons > button{
+    margin-right:3px;
+}

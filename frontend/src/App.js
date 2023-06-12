@@ -10,6 +10,8 @@ import Register from './components/Register';
 import Signin from './components/Signin';
 import WholeList from './components/WholeList';
 import TaskPage from './components/TaskPage';
+import CreatePage from './components/CreatePage';
+import ModifyPage from './components/ModifyPage';
 
 
 const initialState = 
@@ -49,15 +51,15 @@ function reducer(currentState = initialState,action){
     newState.tasks_done = newState.tasks.filter(cur_task => cur_task.status === 'done');
     return newState;
   }
-  if (action.type === 'START_UPDATE'){
-    const newState = {...currentState,update_id:action.data.id,temp_desc:action.data.desc};
-    console.log(newState.temp_desc);
-    return newState;
-  }
-  if (action.type === 'CANCEL_UPDATE'){
-    const newState = {...currentState,update_id:null};
-    return newState;
-  }
+  // if (action.type === 'START_UPDATE'){
+  //   const newState = {...currentState,update_id:action.data.id,temp_desc:action.data.desc};
+  //   console.log(newState.temp_desc);
+  //   return newState;
+  // }
+  // if (action.type === 'CANCEL_UPDATE'){
+  //   const newState = {...currentState,update_id:null};
+  //   return newState;
+  // }
   if (action.type === 'UPDATE_SIGNIN_INFO'){
     console.log(action.data)
     const newState = {...currentState,signinStatus: action.data.success,username: action.data.username,user_id:action.data.user_id};
@@ -96,6 +98,8 @@ function App() {
         <Routes>
           <Route path="/tasks" element={<div><Page /></div>} />
           <Route path="/signin" element={ <div><Register /><Signin/></div>} />
+          <Route path="/tasks/create" element={<div><CreatePage></CreatePage></div>}/> 
+          <Route path="/tasks/update" element={<ModifyPage></ModifyPage>}/>
           {/* <Route path="/tasks?id=" element={<div><TaskPage/></div>}/> */}
         </Routes>
       </Provider>

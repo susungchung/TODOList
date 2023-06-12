@@ -85,6 +85,10 @@
   font-weight: bold;
   margin-bottom: 10px;
 }
+.list-view-priority{
+  position: absolute;
+  bottom: 0.5em;
+}
 
 
 

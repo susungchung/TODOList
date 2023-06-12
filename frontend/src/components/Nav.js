@@ -54,33 +54,12 @@ function Nav(){
     navigate('/signin');
   }
 
-  const handleTest = ()=>{
-    const data = {
-      task_title: 'create priority between tasks',
-      description:"none",
-      id:10,
-      completed: false,
-      status:'in_progress'
-    }
-    const fetchURL = process.env.REACT_APP_SERVER_URL+"list/10/update"
-    const fetchOption  = {
-      method:"PATCH",
-      headers:{'Content-Type': 'application/json'},
-      body:JSON.stringify(data),
-      mode: 'cors',
-      credentials: 'include'
-    }
-    fetch(fetchURL,fetchOption);
-  }
-
   return (
       <nav className="nav">
         
         <div className='nav-main' onClick = {handleMain}>To Main</div>
-        {/* <div onClick = {handleTest}> updateTest</div> */}
-        {/* <Link to={signinStatus?"/tasks":"/signin"}>List</Link> */}
         <ul>
-          {signinStatus?<div className='nav-username'>{username}</div>:null}
+          {signinStatus?<div className='nav-username'>Current User: {username}</div>:null}
           <li className='nav-auth' onClick = {handleAuth}>
             {signinStatus ? "Sign out" : "Sign in"}
           </li>

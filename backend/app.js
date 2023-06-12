@@ -19,7 +19,7 @@ const app = express();
 app.use(helmet({crossOriginResourcePolicy: false,crossOriginEmbedderPolicy: false}));
 
 // cors
-//app.use(cors());
+// app.use(cors());
 app.use(
     cors({
         credentials: true, 

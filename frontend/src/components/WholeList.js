@@ -2,11 +2,11 @@ import "./WholeList.css"
 import { useEffect } from 'react';
 import { useState } from 'react';
 import {useSelector,useDispatch} from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
-import Buttons from "./Buttons";
-import CreateTask from "./CreateTask"; 
+//import Buttons from "./Buttons";
+import { CreateButton } from "./Buttons";
 
 import getSigninStatus from "../lib/getSigninStatus";
 
@@ -53,22 +53,30 @@ function TaskDescription(props){
 }
 
 function Task(props){
+    const navigate = useNavigate();
     const dragStartHandler = (e)=>{
       e.dataTransfer.setData("id",props.data.id);
       e.dataTransfer.setData("status",props.data.status);
     }
 
+    const clickHandler = (e) =>{
+      e.preventDefault();
+      const pathname = `/tasks?id=${props.data.id}`
+      navigate(pathname);
+    } 
     const [curText,setCurText] = useState(props.data.task_title)
+
     return  <li className = 'task_entry todo_component'>
-              <Link 
+              <div 
                 draggable 
                 onDragStart={dragStartHandler} 
                 className = 'todo_link list-group-item' 
-                to={`/tasks?id=${props.data.id}`}
+                onClick={clickHandler}
               >
                 <TaskDescription data = {props.data} update_id = {props.update_id} curText = {curText} setCurText = {setCurText}></TaskDescription>
                 {/* <Buttons data = {props.data}></Buttons> */}
-              </Link>
+                <div className='list-view-priority'>{"priority: "+props.data.priority}</div>
+              </div>
             </li>
 }
 
@@ -144,40 +152,48 @@ function WholeList(){
           return res.json()
         })
         .then(data=>{
+          if (!data.success){
+            console.log(data);
+            alert(data.message);
+            return
+          }
           dispatch({type:"READ",data:data})
         });
       }
     }
 
     return  (
-    <div className="task-columns">
-      <ul 
-        onDragOver={(e)=>{ e.preventDefault(); }} 
-        onDrop={(e)=>{dropHandler(e,'todo')}}
-        className = 'todo-group task-group list-group'
-      >
-        <div className='group-title'>Todo</div>
-        {/* <CreateTask state = {current_state}></CreateTask> */}
-        {tasklist}
-      </ul>
-      
-      <ul 
-        onDragOver={(e)=>{ e.preventDefault(); }} 
-        onDrop={(e)=>{dropHandler(e,'in_progress')}}
-        className= 'in-progress-group task-group list-group'
-      >
-        <div className='group-title'>In progress</div>
-        {tasks_in_progress}
-      </ul>
-      
-      <ul 
-        onDragOver={(e)=>{ e.preventDefault(); }} 
-        onDrop={(e)=>{dropHandler(e,'done')}}
-        className= 'done-group task-group list-group'
-      >
-        <div className='group-title'>Done</div>
-        {tasks_done}
-      </ul>
+    <div>
+      <CreateButton></CreateButton>
+      <div className="task-columns">
+        <ul 
+          onDragOver={(e)=>{ e.preventDefault(); }} 
+          onDrop={(e)=>{dropHandler(e,'todo')}}
+          className = 'todo-group task-group list-group'
+        >
+          <div className='group-title'>Todo</div>
+          {/* <CreateTask state = {current_state}></CreateTask> */}
+          {tasklist}
+        </ul>
+        
+        <ul 
+          onDragOver={(e)=>{ e.preventDefault(); }} 
+          onDrop={(e)=>{dropHandler(e,'in_progress')}}
+          className= 'in-progress-group task-group list-group'
+        >
+          <div className='group-title'>In progress</div>
+          {tasks_in_progress}
+        </ul>
+        
+        <ul 
+          onDragOver={(e)=>{ e.preventDefault(); }} 
+          onDrop={(e)=>{dropHandler(e,'done')}}
+          className= 'done-group task-group list-group'
+        >
+          <div className='group-title'>Done</div>
+          {tasks_done}
+        </ul>
+      </div>
     </div>)
 }
 export default WholeList;
