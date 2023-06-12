@@ -1,18 +1,23 @@
+import UserInfoForm from "./UserInfoForm";
 import "./Signin.css"
 
 function Register(){
     function onRegisterSubmit(event){
         event.preventDefault();
-        if (event.target.username.value === '' || event.target.password.value === '') {
-            console.log('empty');
-            return;
-        }
+
         // make call to the backend
         const data = {username : event.target.username.value, password : event.target.password.value}
         console.log(JSON.stringify(data));
         fetch(process.env.REACT_APP_SERVER_URL+'users',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors',credentials: 'include'})
         .then(res=>{return res.json()})
-        .then(res=>{alert('Successfully registered new account. Please sign in with new account to proceed')})
+        .then(res=>{
+            if (res.success){
+                alert('Successfully registered new account. Please sign in with new account to proceed')
+            }
+            else{
+                alert(res.message);
+            }
+        })
         .catch(
             (error) => {
                 console.error('Error:', error);
@@ -22,23 +27,7 @@ function Register(){
         event.target.reset();
     }
 
-    return (
-        <div className= 'form-outline'>
-            <form className= 'registration' onSubmit = {onRegisterSubmit}>
-                <div className = 'mb-3'>
-                    <h1 className = 'form-text'>Create Account</h1>
-                    <div className="form-input mb-4">
-                        <input type="text" id="form2Example1" className="form-control" name = 'username' placeholder="Username"/>
-                    </div>
-                    <div className="form-input mb-4">
-                        <input type="password" id="form2Example2" className="form-control" name = 'password' placeholder="Password"/>
-                        
-                    </div>
-                </div>
-                <button className="btn btn-primary btn-block submit-btn mb-4">register</button>
-            </form>
-        </div>
-    )
+    return <UserInfoForm onSubmit = {onRegisterSubmit} title='Create Account' buttonName='Register'/>
 }
 
 export default Register;

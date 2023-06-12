@@ -15,22 +15,28 @@ const saltRounds = 10;
 //       res.json({ title: 'users',  users: query_result.rows});
 //     })
 //   });
-  
+
 // create new user
 router.post('/', async (req,res) => {
     const post = req.body;
-    const username = post.username;
+    const username = post.username.trim();
     const password = post.password;
+
     try {
+      // check if username is available
+      const query_res = await db.query('SELECT EXISTS(SELECT 1 FROM users WHERE name = $1)',[username]);
+      const userExists = query_res.rows[0].exists
+      console.log(userExists?'username is already being used':'username is free to use');
+      if (userExists) return res.json({success:false,message:'This username is already being used'});
       const encryptedPassword = await bcrypt.hash(password,saltRounds)
-      console.log(encryptedPassword);
-      db.query("INSERT INTO users (name,password) VALUES($1,$2)",[username,encryptedPassword],(error,query_result)=>{
-          if(error) throw error;
-          res.json({username:username,password:password});
-      });
+      await db.query("INSERT INTO users (name,password) VALUES($1,$2)",[username,encryptedPassword]);
+      res.json({success:true,username:username,password:password});
     }
-    catch{
-      if (error) throw error;
+    catch(error){
+      if (error) {
+        res.json({success:false,message:'Server Failed'})
+        throw error
+      }
     }
 });
 

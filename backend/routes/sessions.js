@@ -4,16 +4,15 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 
 // create new session(i.e. signin)
-router.post('/',(req,res) => {
+router.post('/', async (req,res) => {
     const post = req.body;
-    const username = post.username;
+    const username = post.username.trim();
     const password = post.password;
-    db.query("SELECT id,password FROM users WHERE name = $1",[username],async (error,query_result)=>{
-        if (error) throw error;
-
+    try{
+        const query_result = await db.query("SELECT id,password FROM users WHERE name = $1",[username]);
         // no such user exist
         if (query_result.rowCount === 0){
-          return res.json({message:"User doesn't exist",success :false});
+            return res.json({message:"User doesn't exist",success :false});
         }
 
         const passwordMatch = await bcrypt.compare(password,query_result.rows[0].password)
@@ -29,8 +28,14 @@ router.post('/',(req,res) => {
           console.log('signin successful');
           // tell user signin was successful
           res.json({username:username,user_id:query_result.rows[0].id,success: true});
-        });        
-    })
+        });
+
+    }
+    catch(error){
+        if(error){
+            res.json({success:false,message:'Server Failed'});
+        }
+    }
 });
 
 // get signin status from current session
