@@ -28,7 +28,7 @@ function CreatePage(props){
         } // get data from input and textbox
         console.log(fetchData)
         
-        const fetchURL = process.env.REACT_APP_SERVER_URL+'list/tasks/create';
+        const fetchURL = process.env.REACT_APP_SERVER_URL+'tasks';
         const fetchOption = {
             method:"POST",
             headers:{'Content-Type': 'application/json'},

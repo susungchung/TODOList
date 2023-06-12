@@ -37,7 +37,7 @@ function ModifyPage(props){
             credentials: 'include'
         }
         
-        const fetchURL = process.env.REACT_APP_SERVER_URL+`list/task/${task_id}/update`;
+        const fetchURL = process.env.REACT_APP_SERVER_URL+`tasks/${task_id}/update`;
 
         try {
             const res = await fetch(fetchURL,fetchOption);
@@ -54,7 +54,7 @@ function ModifyPage(props){
         async function getData(){
             console.log('running effect')
             try{
-            const fetchURL=process.env.REACT_APP_SERVER_URL+"list/task/"+task_id;
+            const fetchURL=process.env.REACT_APP_SERVER_URL+"tasks/"+task_id;
             const fetchOption={method:'get',credentials: 'include'}
             const res = await fetch(fetchURL,fetchOption)
             const data = await res.json();

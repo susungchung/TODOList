@@ -56,13 +56,13 @@ app.set('views', path.join(__dirname, 'views'));
 // routers
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const listRouter = require('./routes/list');
-const authRouter = require('./routes/auth');
+const tasksRouter = require('./routes/tasks.js');
+const sessionsRouter = require('./routes/sessions.js');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/list', listRouter);
-app.use('/auth',authRouter);
+app.use('/tasks', tasksRouter);
+app.use('/sessions',sessionsRouter);
 
 
 app.use(express.static(path.join(__dirname, 'public')));

@@ -1,6 +1,6 @@
 async function getSigninStatus(){
     // query signin status in case it changed
-    const fetchURL= process.env.REACT_APP_SERVER_URL+'auth/signin/status';
+    const fetchURL= process.env.REACT_APP_SERVER_URL+'sessions/status';
     const fetchOption = {
         method:"get",
         credentials: 'include'

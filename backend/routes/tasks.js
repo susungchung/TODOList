@@ -24,7 +24,7 @@ router.get('/',checkSignedIn, (req, res) => {
     })
 });
 
-router.post('/tasks/create',checkSignedIn,(req,res)=>{
+router.post('/',checkSignedIn,(req,res)=>{
     const user_id = req.session.user_id;
     const post = req.body;
 
@@ -35,12 +35,12 @@ router.post('/tasks/create',checkSignedIn,(req,res)=>{
     console.log("body:",post);
     db.query("INSERT INTO tasks (task_title,completed,created,user_id,priority,status,task_desc) VALUES($1,FALSE,NOW(),$2,$3,$4,$5)",[title,user_id,priority,status,desc],(error,query_result)=>{
         if(error) throw error;
-        res.redirect('/list');
+        res.redirect('/tasks');
     });
 });
 
 
-router.patch('/task/:task_id/update',checkPermissionFromParam,(req,res)=>{
+router.patch('/:task_id/update',checkPermissionFromParam,(req,res)=>{
     const body = req.body;
     db.query(
         'UPDATE tasks SET task_title = $1, task_desc = $2, priority = $3, status = $4 where id =$5;',
@@ -50,49 +50,40 @@ router.patch('/task/:task_id/update',checkPermissionFromParam,(req,res)=>{
                 console.log(error.stack);
                 throw error;
             }
-        res.redirect(303,'/list');
+        res.redirect(303,'/tasks');
     });
 })
 
 
-router.delete('/task/:task_id',checkPermissionFromParam,(req,res)=>{
+router.delete('/:task_id',checkPermissionFromParam,(req,res)=>{
     const task_id = req.params.task_id;
     db.query("DELETE FROM tasks WHERE id = $1",[task_id],(error,result)=>{
         if (error) throw error;
-        res.redirect(303,'/list');
+        res.redirect(303,'/tasks');
     })
 })
 
-// router.post('/delete',(req,res)=>{
+// router.post('/set_complete',(req,res)=>{
 //     var post = req.body;
-//     console.log("delete_task_id:",post);
-//     db.query("DELETE FROM tasks WHERE id = $1",[post.task_id],(error,result)=>{
+//     var task_id = post.task_id;
+//     var new_completed;
+//     if (post.completed === 'false') new_completed = true;
+//     else new_completed = false;
+//     console.log(post,new_completed)
+//     db.query("UPDATE tasks SET completed = $1 WHERE id = $2 ",[new_completed,task_id],(error,query_result)=>{
 //         if (error) throw error;
-//         res.redirect('/list');
-//     })
+//         res.redirect('/tasks');
+//     });
 // });
 
-router.post('/set_complete',(req,res)=>{
-    var post = req.body;
-    var task_id = post.task_id;
-    var new_completed;
-    if (post.completed === 'false') new_completed = true;
-    else new_completed = false;
-    console.log(post,new_completed)
-    db.query("UPDATE tasks SET completed = $1 WHERE id = $2 ",[new_completed,task_id],(error,query_result)=>{
-        if (error) throw error;
-        res.redirect('/list');
-    });
-});
-
-router.get('/task/:task_id',checkPermissionFromParam,(req,res)=>{
+router.get('/:task_id',checkPermissionFromParam,(req,res)=>{
     db.query('SELECT * FROM tasks WHERE id = $1',[req.params.task_id],(error,query_result)=>{
         if (error) throw error;
         res.json({success:true,task_info: query_result.rows});
     })
 });
 
-router.patch('/task/status',checkPermissionFromBody, (req,res)=>{
+router.patch('/status',checkPermissionFromBody, (req,res)=>{
     const {new_status,task_id} = req.body;
     if (['todo','in_progress','done'].indexOf(new_status) === -1){
         return res.status(400);
@@ -100,7 +91,7 @@ router.patch('/task/status',checkPermissionFromBody, (req,res)=>{
 
     db.query("UPDATE tasks SET status = $1 WHERE id = $2",[new_status,task_id],(error,query_result)=>{
         if (error) throw error;
-        res.redirect(303,'/list')
+        res.redirect(303,'/tasks')
     })
 });
 

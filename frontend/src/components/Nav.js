@@ -20,9 +20,9 @@ function Nav(){
       return navigate("/signin");
     }
     console.log('signout clicked')
-    const fetchURL= process.env.REACT_APP_SERVER_URL+'auth/signout';
+    const fetchURL= process.env.REACT_APP_SERVER_URL+'sessions';
     const fetchOption = {
-      method:"POST",
+      method:"DELETE",
       headers:{'Content-Type': 'application/json'},
       mode: 'cors',
       credentials: 'include'

@@ -45,7 +45,7 @@ function onSigninSubmit(event){
     // make call to the backend
     const data = {username : event.target.username.value, password : event.target.password.value}
     fetch(
-        process.env.REACT_APP_SERVER_URL+'auth/signin',
+        process.env.REACT_APP_SERVER_URL+'sessions',
         {method:"post",headers:{'Content-Type': 'application/json'},
         body:JSON.stringify(data),
         mode: 'cors',
@@ -69,6 +69,5 @@ function onSigninSubmit(event){
         }
     });
     event.target.reset();
-    
 }
 export default Signin;

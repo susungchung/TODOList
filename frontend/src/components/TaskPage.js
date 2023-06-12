@@ -29,7 +29,7 @@ function TaskPage(props){
                 const status_data = await getSigninStatus();
                 dispatch({type:'UPDATE_SIGNIN_INFO',data:status_data})
 
-                const fetchURL = process.env.REACT_APP_SERVER_URL+"list/task/"+props.id
+                const fetchURL = process.env.REACT_APP_SERVER_URL+"tasks/"+props.id
                 const fetchOption = {method:'get',credentials: 'include'}
                 const res = await fetch(fetchURL,fetchOption);
                 const data = await res.json();

@@ -1,12 +1,30 @@
-//import { useState } from 'react';
 import "./Signin.css"
-import {useNavigate} from "react-router-dom";
 
 function Register(){
-    const navigate = useNavigate();
+    function onRegisterSubmit(event){
+        event.preventDefault();
+        if (event.target.username.value === '' || event.target.password.value === '') {
+            console.log('empty');
+            return;
+        }
+        // make call to the backend
+        const data = {username : event.target.username.value, password : event.target.password.value}
+        console.log(JSON.stringify(data));
+        fetch(process.env.REACT_APP_SERVER_URL+'users',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors',credentials: 'include'})
+        .then(res=>{return res.json()})
+        .then(res=>{alert('Successfully registered new account. Please sign in with new account to proceed')})
+        .catch(
+            (error) => {
+                console.error('Error:', error);
+                console.log("server is down!!");
+            })
+        
+        event.target.reset();
+    }
+
     return (
         <div className= 'form-outline'>
-            <form className= 'registration' onSubmit = {onRegisterSubmit.bind({navigate:navigate})}>
+            <form className= 'registration' onSubmit = {onRegisterSubmit}>
                 <div className = 'mb-3'>
                     <h1 className = 'form-text'>Create Account</h1>
                     <div className="form-input mb-4">
@@ -22,27 +40,5 @@ function Register(){
         </div>
     )
 }
-
-function onRegisterSubmit(event){
-    event.preventDefault();
-    if (event.target.username.value === '' || event.target.password.value === '') {
-        console.log('empty');
-        return;
-    }
-    // make call to the backend
-    const data = {username : event.target.username.value, password : event.target.password.value}
-    console.log(JSON.stringify(data));
-    fetch(process.env.REACT_APP_SERVER_URL+'auth/register',{method:"post",headers:{'Content-Type': 'application/json'},body:JSON.stringify(data),mode: 'cors',credentials: 'include'})
-    .then(res=>{return res.json()}).catch(
-        (error) => {
-            console.error('Error:', error);
-            console.log("server is down!!");
-        }).then(this.navigate('/tasks'))
-    
-    event.target.reset();
-}
-
-
-
 
 export default Register;
