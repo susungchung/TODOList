@@ -3,12 +3,18 @@
 }
 
 .dropdowns{
-    margin-top:1.5em
+    margin-top:1.5em;
+    display: flex;
 }
 
 .new-task-description{
-    margin-top:1.5em
+    margin-top:1.5em;
 }
+
+.dropdown{
+    margin-right:10px;
+}
+
 
 .form{
     width:750px;

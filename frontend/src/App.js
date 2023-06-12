@@ -45,21 +45,21 @@ function reducer(currentState = initialState,action){
   }
   if (action.type === 'READ'){
     const newState = {...currentState,tasks:action.data.tasks,update_id:action.data.update_id};
-    // sort tasks based on their state
+    const priorityRank = {'high':2,'medium':1,'low':0};
+    function compareTasks(t1,t2){
+      if (t1.priority === t2.priority){
+        return parseInt(t1.id)-parseInt(t2.id)
+      }
+      return priorityRank[t2.priority]-priorityRank[t1.priority];
+    }
+    newState.tasks.sort(compareTasks);
+    // separate tasks based on their state
     newState.tasks_todo = newState.tasks.filter(cur_task => cur_task.status === 'todo');
     newState.tasks_in_progress = newState.tasks.filter(cur_task => cur_task.status === 'in_progress');
     newState.tasks_done = newState.tasks.filter(cur_task => cur_task.status === 'done');
     return newState;
   }
-  // if (action.type === 'START_UPDATE'){
-  //   const newState = {...currentState,update_id:action.data.id,temp_desc:action.data.desc};
-  //   console.log(newState.temp_desc);
-  //   return newState;
-  // }
-  // if (action.type === 'CANCEL_UPDATE'){
-  //   const newState = {...currentState,update_id:null};
-  //   return newState;
-  // }
+
   if (action.type === 'UPDATE_SIGNIN_INFO'){
     console.log(action.data)
     const newState = {...currentState,signinStatus: action.data.success,username: action.data.username,user_id:action.data.user_id};

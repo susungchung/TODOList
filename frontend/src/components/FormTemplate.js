@@ -45,18 +45,22 @@ function FormTemplate(props){
                 <label htmlFor="new-task-input">Title</label>
                 <input name = 'title' className = 'form-control' id=' new-task-input' placeholder={titlePlaceholder} value={titleValue} onChange = {onChange}></input>
                 <div className='dropdowns'>
-                    <label>priority</label>
-                    <select name = 'priority' className = 'create-select form-control' id = 'new-task-priority' value = {priorityValue} onChange={onChange}>
-                        <option value = 'low'>low</option>
-                        <option value = 'medium'>medium</option>
-                        <option value = 'high'>high</option>
-                    </select>
-                    <label>status</label>
-                    <select name = 'status' className = 'create-select form-control' id = 'new-task-status' value ={statusValue} onChange={onChange}>
-                        <option value = 'todo'>todo</option>
-                        <option value = 'in_progress'>in progress</option>
-                        <option value = 'done'>done</option>
-                    </select>
+                    <div className='dropdown'>
+                        <label>priority</label>
+                        <select name = 'priority' className = 'create-select form-control' id = 'new-task-priority' value = {priorityValue} onChange={onChange}>
+                            <option value = 'low'>low</option>
+                            <option value = 'medium'>medium</option>
+                            <option value = 'high'>high</option>
+                        </select>
+                    </div>
+                    <div className='dropdown'>
+                        <label>status</label>
+                        <select name = 'status' className = 'create-select form-control' id = 'new-task-status' value ={statusValue} onChange={onChange}>
+                            <option value = 'todo'>todo</option>
+                            <option value = 'in_progress'>in progress</option>
+                            <option value = 'done'>done</option>
+                        </select>
+                    </div>
                 </div>
                 <label htmlFor='new-task-description'>description</label>
                 <textarea name = 'desc' className ='form-control' id = 'new-task-description' rows="15" placeholder={descPlaceholder} value={descValue} onChange={onChange}></textarea>
