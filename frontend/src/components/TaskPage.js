@@ -109,7 +109,7 @@ function TaskPage(props){
             </div>
             
             <article className = 'page-description'><b>Description : </b><br/>{`${taskDesc}`}</article>
-            <div className = 'page-comment'><b>Comments:</b><br/></div>
+            {/* <div className = 'page-comment'><b>Comments:</b><br/></div> */}
         </div>
     )
 };

@@ -25,12 +25,12 @@
   border-radius: 7px;
   margin-top:0.3em;
   width:stretch;
-  height:100px;
+  height:120px;
 }
 
 .todo_link{
   width:stretch;
-  height:100px;
+  height:120px;
   text-align: left;
   /* border:1px solid black; */
 }

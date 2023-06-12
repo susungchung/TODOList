@@ -24,7 +24,20 @@ router.get('/',checkSignedIn, (req, res) => {
     })
 });
 
-router.post('/',checkSignedIn,checkNotDemo,(req,res)=>{
+const checkInputValidity = (req,res,next)=>{
+    const body = req.body;
+    const priority = body.priority;
+    const status = body.status;
+    const statusValues = ['todo','in_progress','done'];
+    const priorityValues = ['high','medium','low'];
+    if (priorityValues.indexOf(priority) === -1 || statusValues.indexOf(status)=== -1){
+        return res.json({success:false,message:'Invalid input'})
+    }
+    next();
+}
+
+
+router.post('/',checkSignedIn,checkNotDemo,checkInputValidity,(req,res)=>{
     const user_id = req.session.user_id;
     const post = req.body;
     const title = post.title;
@@ -39,7 +52,7 @@ router.post('/',checkSignedIn,checkNotDemo,(req,res)=>{
 });
 
 
-router.patch('/:task_id/update',checkNotDemo,checkPermissionFromParam,(req,res)=>{
+router.patch('/:task_id/update',checkNotDemo,checkPermissionFromParam,checkInputValidity,(req,res)=>{
     const body = req.body;
     db.query(
         'UPDATE tasks SET task_title = $1, task_desc = $2, priority = $3, status = $4 where id =$5;',
