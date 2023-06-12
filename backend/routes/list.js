@@ -18,7 +18,7 @@ router.options('/',cors());
 
 /* GET list page. */
 router.get('/',checkSignedIn, (req, res) => {
-    db.query("SELECT id,task_title,completed,user_id,status,priority FROM tasks WHERE user_id = $1 ORDER BY id ASC",[req.session.user_id],(error,query_result)=>{
+    db.query("SELECT id,task_title,completed,user_id,status,priority FROM tasks WHERE user_id = $1",[req.session.user_id],(error,query_result)=>{
         if (error) throw error;
         res.json({ success:true, title: 'task lists',  tasks: query_result.rows, update_id: -1});
     })

@@ -65,6 +65,10 @@ function Task(props){
       navigate(pathname);
     } 
     const [curText,setCurText] = useState(props.data.task_title)
+    const icon_color =  props.data.priority ==='high'?'icon-red':
+                  props.data.priority ==='medium'?'icon-yellow':
+                  props.data.priority ==='low'?'icon-green':
+                  'fa-minus';
 
     return  <li className = 'task_entry todo_component'>
               <div 
@@ -75,7 +79,10 @@ function Task(props){
               >
                 <TaskDescription data = {props.data} update_id = {props.update_id} curText = {curText} setCurText = {setCurText}></TaskDescription>
                 {/* <Buttons data = {props.data}></Buttons> */}
-                <div className='list-view-priority'>{"priority: "+props.data.priority}</div>
+                <div className='list-view-priority'>
+                  {`priority: ${props.data.priority} `}
+                  <i className={`fa fa-solid fa-exclamation ${icon_color}`}></i>
+                  </div>           
               </div>
             </li>
 }

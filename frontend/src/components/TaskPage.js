@@ -81,6 +81,12 @@ function TaskPage(props){
         priority:priority
     }
     
+    const icon_color =  priority ==='high'?'icon-red':
+                        priority ==='medium'?'icon-yellow':
+                        priority ==='low'?'icon-green':
+                        'fa-minus';
+
+
     if (loading){
         return <Loading/>
     }
@@ -98,7 +104,7 @@ function TaskPage(props){
                     {/* <Buttons task_id={props.id}></Buttons> */}
                     <div className = 'page-date'><b>Created on: </b>{dateCreated}</div>
                     <div><b>Current Status: </b>{taskStatus === 'in_progress'?'in progress':taskStatus}</div>
-                    <div><b>Priority: </b>{priority}</div>
+                    <div><b>Priority: </b>{priority} <i className={`fa fa-solid fa-exclamation ${icon_color}`}></i></div>
                 </div>
             </div>
             

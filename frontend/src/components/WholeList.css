@@ -50,6 +50,18 @@
 .fa-square-o{
   margin-right:2.5px;
 }
+.create-button{
+  margin-top: 10px;
+}
+.icon-red{
+  color:red;
+}
+.icon-yellow{
+  color:orange;
+}
+.icon-green{
+  color:green;
+}
 
 .task_forms button {
   padding-left: 1px;

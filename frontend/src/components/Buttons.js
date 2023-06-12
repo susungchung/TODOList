@@ -28,7 +28,7 @@ function DeleteButton(props){
 }
 
 function CreateButton(props){
-    return <Link className='btn btn-primary' to={`/tasks/create`}>Create</Link>
+    return <Link className='btn btn-primary create-button' to={`/tasks/create`}>Create New Task</Link>
 }
 
 
