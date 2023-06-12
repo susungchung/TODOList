@@ -1,7 +1,7 @@
 const express = require('express');
 const db =  require('../lib/db');
 const e = require('express');
-const {checkSignedIn,checkPermissionFromParam,checkPermissionFromBody} = require('../lib/checkPermission')
+const {checkSignedIn,checkPermissionFromParam,checkPermissionFromBody,checkNotDemo} = require('../lib/checkPermission')
 
 
 const router = express.Router();
@@ -24,10 +24,9 @@ router.get('/',checkSignedIn, (req, res) => {
     })
 });
 
-router.post('/',checkSignedIn,(req,res)=>{
+router.post('/',checkSignedIn,checkNotDemo,(req,res)=>{
     const user_id = req.session.user_id;
     const post = req.body;
-
     const title = post.title;
     const priority = post.priority;
     const status = post.status;
@@ -40,7 +39,7 @@ router.post('/',checkSignedIn,(req,res)=>{
 });
 
 
-router.patch('/:task_id/update',checkPermissionFromParam,(req,res)=>{
+router.patch('/:task_id/update',checkNotDemo,checkPermissionFromParam,(req,res)=>{
     const body = req.body;
     db.query(
         'UPDATE tasks SET task_title = $1, task_desc = $2, priority = $3, status = $4 where id =$5;',
@@ -55,7 +54,7 @@ router.patch('/:task_id/update',checkPermissionFromParam,(req,res)=>{
 })
 
 
-router.delete('/:task_id',checkPermissionFromParam,(req,res)=>{
+router.delete('/:task_id',checkNotDemo,checkPermissionFromParam,(req,res)=>{
     const task_id = req.params.task_id;
     db.query("DELETE FROM tasks WHERE id = $1",[task_id],(error,result)=>{
         if (error) throw error;

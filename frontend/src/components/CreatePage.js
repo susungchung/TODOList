@@ -39,6 +39,9 @@ function CreatePage(props){
         try {
             const res = await fetch(fetchURL,fetchOption);
             const data = await res.json()
+            if (!data.success){
+                return alert(data.message);
+            }
             dispatch({type:"READ",data:data});
             navigate('/tasks');
         } 

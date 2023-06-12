@@ -95,7 +95,7 @@ function TaskPage(props){
     return (
         <div className = 'task-page'>
             <div className = 'page-top'>
-                <div className = 'page-title'><b>{'task-'+props.id + ': ' +title}</b></div>
+                <div className = 'page-title'><b>{'Task '+props.id + ' - '+title}</b></div>
                 <div className = 'page-top-right'>
                     <div className = 'page-buttons'>
                         <ModifyButton className= 'page-update-button' data = {info}></ModifyButton>

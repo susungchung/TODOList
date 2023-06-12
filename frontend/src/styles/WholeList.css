@@ -16,7 +16,6 @@
   padding-top:20px;
   margin-right:1em;
   margin-left:1em;
-  margin-top:2em;
   width: 20em;
 }
 
@@ -36,7 +35,30 @@
   /* border:1px solid black; */
 }
 
+.content-area{
+  width:1100px;
+  margin-left:auto;
+  margin-right:auto;
+  display: flex;
+  flex-direction: column;
+}
 
+.content-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.content-buttons{
+  margin-right:40px;
+}
+.drag-info{
+  text-align: left;
+  margin-left:40px;
+  margin-top:1em;
+  margin-bottom:0.3em;
+  color:white;
+}
 .task_forms{
   display: inline-block;
 }
@@ -52,6 +74,7 @@
 }
 .create-button{
   margin-top: 10px;
+  margin-bottom:5px;
 }
 .icon-red{
   color:red;
@@ -104,7 +127,7 @@
 
 
 
-@media (max-width:800px){
+@media (max-width:1100px){
   .todo{  
     margin-right:0px;
     margin-left:0px;
@@ -117,5 +140,20 @@
     justify-content: center;
     align-items: center;
   }
-
+  .content-area{
+    width:700px;
+  }
+  .drag-info{
+    text-align: center;
+    margin-left:0px;
+  }
+  .content-header{
+    flex-direction: column;
+  }
+  .create-button{
+    margin-top:0px;
+  }
+  .content-buttons{
+    margin-right:0px;
+  }
 }

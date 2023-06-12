@@ -38,6 +38,26 @@ router.post('/', async (req,res) => {
     }
 });
 
+router.post('/demo',async (req,res)=>{
+    // create session for demo account
+    // hard code instead of query
+    try{
+        const username = 'Demo'
+        const user_id = 9
+        req.session.signed_in=true;
+        req.session.username=username;
+        req.session.user_id=user_id;
+        await req.session.save()
+        res.json({success:true,username:username,user_id:user_id});
+    }
+    catch (error){
+        if (error){
+            res.json({success:false, message:'server failed'});
+            throw(error);
+        }
+    }
+})
+
 // get signin status from current session
 router.get('/status',(req,res)=>{
     if (!req.session.signed_in){

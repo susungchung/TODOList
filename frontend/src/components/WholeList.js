@@ -16,7 +16,7 @@ function TaskDescription(props){
     if (props.data.completed) { class_name = 'completed_task'}
     else {class_name = 'incompleted_task' }
     return  <span className = {'task_title ' + class_name}>
-                {props.data.task_title}
+                {`Task ${props.data.id} - ${props.data.task_title}`}
             </span>
 }
 
@@ -46,7 +46,6 @@ function Task(props){
                 onClick={clickHandler}
               >
                 <TaskDescription data = {props.data} update_id = {props.update_id} curText = {curText} setCurText = {setCurText}></TaskDescription>
-                {/* <Buttons data = {props.data}></Buttons> */}
                 <div className='list-view-priority'>
                   {`priority: ${props.data.priority} `}
                   <i className={`fa fa-solid fa-exclamation ${icon_color}`}></i>
@@ -138,8 +137,13 @@ function WholeList(){
     }
 
     return  (
-    <div>
-      <CreateButton></CreateButton>
+    <div className = 'content-area'>
+      <div className="content-header">
+        <p className = 'drag-info'>Try performing drag and drop to change task status </p>
+        <div className = 'content-buttons'>
+          <CreateButton></CreateButton>
+        </div>
+      </div>
       <div className="task-columns">
         <ul 
           onDragOver={(e)=>{ e.preventDefault(); }} 

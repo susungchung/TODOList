@@ -61,8 +61,19 @@ const checkPermission = async function(req,res,next){
     next();
 }
 
+const checkNotDemo = function(req,res,next){
+    const user_id = req.session.user_id;
+    
+    // check if demo
+    if (user_id == 9){
+        return res.json({success:false,message:"Cannot make modification to tasks using demo account. Please sign in with different account to perform that action."})
+    }
+    next();
+}
+
 module.exports = {
     checkSignedIn:checkSignedIn,
     checkPermissionFromParam:checkPermissionFromParam,
-    checkPermissionFromBody:checkPermissionFromBody
+    checkPermissionFromBody:checkPermissionFromBody,
+    checkNotDemo:checkNotDemo
 };

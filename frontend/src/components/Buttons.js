@@ -16,13 +16,23 @@ function DeleteButton(props){
     const dispatch = useDispatch();
     const navigate = useNavigate();
     async function onDelete(){
-        const task_id = props.task_id;
-        const fetchURL=process.env.REACT_APP_SERVER_URL+'tasks/'+task_id;
-        const fetchOption = {method:'DELETE',credentials: 'include'}
-        const res = await fetch(fetchURL,fetchOption);
-        const data = await res.json();
-        dispatch({type:"READ",data:data})
-        navigate('/tasks')
+        try{
+            const task_id = props.task_id;
+            const fetchURL=process.env.REACT_APP_SERVER_URL+'tasks/'+task_id;
+            const fetchOption = {method:'DELETE',credentials: 'include'}
+            const res = await fetch(fetchURL,fetchOption);
+            const data = await res.json();
+            if (!data.success){
+                return alert(data.message);
+            }
+            dispatch({type:"READ",data:data})
+            navigate('/tasks')
+        }
+        catch(error){
+            if (error){
+                throw (error)
+            }
+        }
     }
     return (<button className='btn btn-primary' onClick={onDelete}>Delete</button>)
 }
