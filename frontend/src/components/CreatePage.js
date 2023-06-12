@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import FormTemplate from './FormTemplate';
-import './Forms.css'
+import TaskFormTemplate from '../templates/TaskFormTemplate';
+import '../styles/Forms.css'
 
 
 
@@ -48,7 +48,7 @@ function CreatePage(props){
     }
 
 
-    return <FormTemplate submitHandler={onSubmitCreate} titlePlaceholder='Title' descPlaceholder = 'Task Description'></FormTemplate>
+    return <TaskFormTemplate submitHandler={onSubmitCreate} titlePlaceholder='Title' descPlaceholder = 'Task Description'></TaskFormTemplate>
 }
 
 export default CreatePage;

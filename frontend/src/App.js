@@ -12,6 +12,7 @@ import WholeList from './components/WholeList';
 import TaskPage from './components/TaskPage';
 import CreatePage from './components/CreatePage';
 import ModifyPage from './components/ModifyPage';
+import Demo from './components/Demo'
 
 
 const initialState = 
@@ -97,10 +98,9 @@ function App() {
       <Nav></Nav>
         <Routes>
           <Route path="/tasks" element={<div><Page /></div>} />
-          <Route path="/signin" element={ <div><Register /><Signin/></div>} />
+          <Route path="/signin" element={ <div><Register /><Signin/><Demo/></div>} />
           <Route path="/tasks/create" element={<div><CreatePage></CreatePage></div>}/> 
           <Route path="/tasks/update" element={<ModifyPage></ModifyPage>}/>
-          {/* <Route path="/tasks?id=" element={<div><TaskPage/></div>}/> */}
         </Routes>
       </Provider>
     </div>

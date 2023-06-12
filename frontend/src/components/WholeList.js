@@ -1,4 +1,4 @@
-import "./WholeList.css"
+import "../styles/WholeList.css"
 import { useEffect } from 'react';
 import { useState } from 'react';
 import {useSelector,useDispatch} from 'react-redux';

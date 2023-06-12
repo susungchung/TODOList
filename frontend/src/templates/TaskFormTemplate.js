@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { useLocation,useNavigate } from "react-router-dom";
 
 
-function FormTemplate(props){
+function TaskFormTemplate(props){
     const submitHandler = props.submitHandler;
     const titlePlaceholder = props.titlePlaceholder;
     const descPlaceholder = props.descPlaceholder;
@@ -74,4 +74,4 @@ function FormTemplate(props){
     )
 }
 
-export default FormTemplate;
+export default TaskFormTemplate;

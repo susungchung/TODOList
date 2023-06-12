@@ -1,4 +1,4 @@
-function UserInfoForm(props){
+function UserFormTemplate(props){
     function onSubmit(event){
         event.preventDefault();
         // check if input is valid or not
@@ -29,4 +29,4 @@ function UserInfoForm(props){
         </div>
     );
 }
-export default UserInfoForm;
+export default UserFormTemplate;

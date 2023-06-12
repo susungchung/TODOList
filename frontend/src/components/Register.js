@@ -1,5 +1,5 @@
-import UserInfoForm from "./UserInfoForm";
-import "./Signin.css"
+import UserFormTemplate from "../templates/UserFormTemplate";
+import "../styles/Signin.css"
 
 function Register(){
     function onRegisterSubmit(event){
@@ -27,7 +27,7 @@ function Register(){
         event.target.reset();
     }
 
-    return <UserInfoForm onSubmit = {onRegisterSubmit} title='Create Account' buttonName='Register'/>
+    return <UserFormTemplate onSubmit = {onRegisterSubmit} title='Create Account' buttonName='Register'/>
 }
 
 export default Register;

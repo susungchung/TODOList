@@ -1,8 +1,8 @@
 import {useDispatch} from 'react-redux';
 import {useNavigate} from "react-router-dom";
 
-import UserInfoForm from "./UserInfoForm";
-import "./Signin.css"
+import UserFormTemplate from "../templates/UserFormTemplate";
+import "../styles/Signin.css"
 
 function Signin(){
     const dispatch = useDispatch();
@@ -38,7 +38,7 @@ function Signin(){
         event.target.reset();
     }
 
-    return <UserInfoForm onSubmit = {onSigninSubmit} title='Sign in' buttonName='Sign in'/>
+    return <UserFormTemplate onSubmit = {onSigninSubmit} title='Sign in' buttonName='Sign in'/>
 }
 
 export default Signin;

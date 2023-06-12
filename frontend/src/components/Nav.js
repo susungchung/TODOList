@@ -1,4 +1,4 @@
-import "./Nav.css"
+import "../styles/Nav.css"
 import getSigninStatus from "../lib/getSigninStatus";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate , useMatch, useResolvedPath } from "react-router-dom"

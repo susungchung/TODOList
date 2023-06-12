@@ -7,8 +7,8 @@ import getSigninStatus from '../lib/getSigninStatus';
 import { Loading } from "./Misc";
 
 
-import './TaskPage.css'
-import './Misc.css'
+import '../styles/TaskPage.css'
+import '../styles/Misc.css'
 
 // change to async
 function TaskPage(props){

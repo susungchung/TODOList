@@ -3,9 +3,9 @@ import { Loading } from "./Misc"
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import FormTemplate from "./FormTemplate";
+import TaskFormTemplate from "../templates/TaskFormTemplate";
 
-import './Misc.css'
+import '../styles/Misc.css'
 
 
 function ModifyPage(props){
@@ -91,12 +91,12 @@ function ModifyPage(props){
         return <Loading/>
     }
     return (
-        <FormTemplate 
+        <TaskFormTemplate 
             submitHandler={onModifySubmit}
             titleValue={title}
             priorityValue={priority}
             statusValue={taskStatus}
-            descValue={taskDesc}></FormTemplate>
+            descValue={taskDesc}></TaskFormTemplate>
         )
 
 }
