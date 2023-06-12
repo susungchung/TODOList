@@ -139,7 +139,7 @@ function WholeList(){
     return  (
     <div className = 'content-area'>
       <div className="content-header">
-        <p className = 'drag-info'>Try performing drag and drop to change task status </p>
+        <p className = 'drag-info'>Try changing task status by performing drag and drop</p>
         <div className = 'content-buttons'>
           <CreateButton></CreateButton>
         </div>
@@ -151,7 +151,6 @@ function WholeList(){
           className = 'todo-group task-group list-group'
         >
           <div className='group-title'>Todo</div>
-          {/* <CreateTask state = {current_state}></CreateTask> */}
           {tasklist}
         </ul>
         

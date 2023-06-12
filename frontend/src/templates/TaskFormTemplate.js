@@ -7,10 +7,15 @@ function TaskFormTemplate(props){
     const titlePlaceholder = props.titlePlaceholder;
     const descPlaceholder = props.descPlaceholder;
 
+    const currentTitle = props.titleValue?props.titleValue:'';
+    const currentDesc = props.descValue?props.descValue:''
+    const currentPriority = props.priorityValue?props.priorityValue:'low';
+    const currentStatus = props.statusValue?props.statusValue:'todo';
+
     const [titleValue,setTitle] = useState(props.titleValue?props.titleValue:'');
     const [descValue,setDesc] = useState(props.descValue?props.descValue:'');
-    const [priorityValue,setpriority] = useState(props.priorityValue);
-    const [statusValue,setStatus] = useState(props.statusValue);
+    const [priorityValue,setPriority] = useState(props.priorityValue?props.priorityValue:'low');
+    const [statusValue,setStatus] = useState(props.statusValue?props.statusValue:'todo');
 
     const modified = useRef(false);
 
@@ -21,7 +26,7 @@ function TaskFormTemplate(props){
         const name = e.target.name;
         const setFunction = {
             'title':setTitle,
-            'priority': setpriority,
+            'priority': setPriority,
             'status':setStatus,
             'desc':setDesc
         }
@@ -30,15 +35,21 @@ function TaskFormTemplate(props){
     }
 
     function onCancel(e){
-        e.preventDefault()
-        console.log(location);
+        e.preventDefault();
         const task_id = new URLSearchParams(location.search).get('id')
         if (task_id){
-            navigate('/tasks?id='+task_id);
+            return navigate('/tasks?id='+task_id);
         }
         navigate('/tasks');
     }
 
+    function onReset(e){
+        e.preventDefault();
+        setTitle(currentTitle);
+        setDesc(currentDesc);
+        setPriority(currentPriority);
+        setStatus(currentStatus);
+    }
     return (
         <div className="form-page">
             <form className='form form-group create-form' onSubmit={submitHandler}>
@@ -65,7 +76,7 @@ function TaskFormTemplate(props){
                 <label htmlFor='new-task-description'>description</label>
                 <textarea name = 'desc' className ='form-control' id = 'new-task-description' rows="15" placeholder={descPlaceholder} value={descValue} onChange={onChange}></textarea>
                 <div className="form-buttons">
-                    <button className = 'btn btn-primary' type="reset">Reset</button>
+                    <button className = 'btn btn-primary' type="reset" onClick={onReset}>Reset</button>
                     <button className = 'btn btn-primary' type="button" onClick={onCancel}>Cancel</button>
                     <button className = 'btn btn-primary' type='submit'>Submit</button>
                 </div>
