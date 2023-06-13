@@ -2,6 +2,7 @@ import {Provider} from 'react-redux';
 import {configureStore} from '@reduxjs/toolkit'
 import {Routes, Route} from "react-router-dom"
 import {useLocation} from 'react-router-dom'
+import { Navigate } from 'react-router-dom';
 
 import './App.css';
 
@@ -97,6 +98,7 @@ function App() {
       <Provider store = {store}>
       <Nav></Nav>
         <Routes>
+          <Route path='/' element={<Navigate to='/tasks' />}/>
           <Route path="/tasks" element={<div><Page /></div>} />
           <Route path="/signin" element={ <div><Register /><Signin/><Demo/></div>} />
           <Route path="/tasks/create" element={<div><CreatePage></CreatePage></div>}/> 

@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { CreateButton } from "./Buttons";
 
 import getSigninStatus from "../lib/getSigninStatus";
+import { Loading } from "./Misc";
 
 // change to place holder?
 function TaskDescription(props){
@@ -66,7 +67,7 @@ function WholeList(){
     const dispatch = useDispatch();
     const current_state = useSelector(state=>state);
     const navigate = useNavigate();
-
+    const [loading,setLoading] = useState(true);
      useEffect(()=>{
       async function getTasks(){
         const status_data = await getSigninStatus()
@@ -91,6 +92,9 @@ function WholeList(){
           console.log("error while loading tasks",error);
           throw(error);
         }
+        finally{
+          setLoading(false);
+        }
       }
       getTasks();
     },[dispatch,navigate]);
@@ -108,34 +112,37 @@ function WholeList(){
         tasks_done = populate_tasks_list(current_state.tasks_done,current_state.update_id);
     }
 
-    const dropHandler = (e, statusValue)=>{
+    const dropHandler = async (e, statusValue)=>{
       // update status of the task based on its destination
       const oldStatus = e.dataTransfer.getData('status');
       const task_id = e.dataTransfer.getData('id');
 
       if (oldStatus !== statusValue){
         const data = {task_id:task_id,new_status:statusValue};
-        fetch( process.env.REACT_APP_SERVER_URL+`tasks/status`,{
+        const fetchURL = process.env.REACT_APP_SERVER_URL+`tasks/status`
+        const fetchOption = {
           method:"PATCH",
           headers:{'Content-Type': 'application/json'},
           body:JSON.stringify(data),
           mode: 'cors',
           credentials: 'include'
-        })
-        .then(res=>{
-          return res.json()
-        })
-        .then(data=>{
-          if (!data.success){
-            console.log(data);
-            alert(data.message);
-            return
-          }
-          dispatch({type:"READ",data:data})
-        });
+        }
+        const res = await fetch( fetchURL,fetchOption).catch((error)=>{if (error) throw error});
+        const res_json = await res.json()
+
+        if (!res_json.success){
+          console.log(res_json);
+          alert(res_json.message);
+          return
+        }
+        dispatch({type:"READ",data:res_json});
       }
     }
 
+    if (loading){
+      return <Loading/>
+    }
+    
     return  (
     <div className = 'content-area'>
       <div className="content-header">
