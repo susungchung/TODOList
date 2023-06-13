@@ -30,7 +30,7 @@ function ModifyPage(props){
             status: e.target.status.value
         }
         const fetchOption = {
-            method:"PATCH",
+            method:"PUT",
             headers:{'Content-Type': 'application/json'},
             body:JSON.stringify(fetchData),
             mode: 'cors',
@@ -46,7 +46,7 @@ function ModifyPage(props){
                 return alert(data.message);
             }
             dispatch({type:"READ",data:data});
-            navigate('/tasks');
+            navigate('/tasks?id='+task_id);
         } 
         catch(error){
          if (error) throw error;

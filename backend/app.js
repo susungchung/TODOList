@@ -27,6 +27,7 @@ app.use(
             if (process.env.CORS_WHITELIST.indexOf(origin) !== -1) {
                 callback(null, true)
             } else {
+                console.log("failed",origin);
                 callback(new Error('Not allowed by CORS'))
             }
         }
@@ -47,8 +48,12 @@ app.use(session({
     }),
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }
+    saveUninitialized: true,   
+    cookie: {
+        sameSite: process.env.PRODUCTION?'none':false, 
+        secure: process.env.PRODUCTION?true:false,
+        maxAge: 30 * 24 * 60 * 60 * 1000
+    }
 }));
 
 app.set('views', path.join(__dirname, 'views'));

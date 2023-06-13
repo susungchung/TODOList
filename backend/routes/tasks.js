@@ -52,7 +52,7 @@ router.post('/',checkSignedIn,checkNotDemo,checkInputValidity,(req,res)=>{
 });
 
 
-router.patch('/:task_id/update',checkNotDemo,checkPermissionFromParam,checkInputValidity,(req,res)=>{
+router.put('/:task_id/update',checkNotDemo,checkPermissionFromParam,checkInputValidity,(req,res)=>{
     const body = req.body;
     db.query(
         'UPDATE tasks SET task_title = $1, task_desc = $2, priority = $3, status = $4 where id =$5;',
