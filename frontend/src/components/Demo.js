@@ -25,7 +25,7 @@ function Demo(props){
         }
         catch(error){
             if (error){
-                alert('An Error Occurred')
+                alert(error)
                 throw (error);
             }
         }

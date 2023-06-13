@@ -9,6 +9,9 @@ router.post('/', async (req,res) => {
     const username = post.username.trim();
     const password = post.password;
     try{
+        // adding regenerate session needed
+
+
         const query_result = await db.query("SELECT id,password FROM users WHERE name = $1",[username]);
         // no such user exist
         if (query_result.rowCount === 0){

@@ -20,19 +20,25 @@ app.use(helmet({crossOriginResourcePolicy: false,crossOriginEmbedderPolicy: fals
 
 // cors
 // app.use(cors());
-app.use(
-    cors({
-        credentials: true, 
-        origin: function (origin, callback) {
-            if (process.env.CORS_WHITELIST.indexOf(origin) !== -1) {
-                callback(null, true)
-            } else {
-                console.log("failed",origin);
-                callback(new Error('Not allowed by CORS'))
-            }
-        }
-    })
-);
+// app.use(
+//     cors({
+//         credentials: true, 
+//         origin: function (origin, callback) {
+//             if (process.env.CORS_WHITELIST.indexOf(origin) !== -1) {
+//                 callback(null, true)
+//             } else {
+//                 console.log("failed",origin);
+//                 callback(new Error('Not allowed by CORS'))
+//             }
+//         }
+//     })
+// );
+
+app.use(cors({
+    credential:true,
+    origin:'https://list-frontend.onrender.com',
+    allowedHeaders:'Content-Type'
+}));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -47,8 +53,8 @@ app.use(session({
         tableName: 'user_sessions'
     }),
     secret: process.env.SESSION_SECRET,
+    saveUninitialized: false, // only create session when something gets stored
     resave: false,
-    saveUninitialized: true,   
     cookie: {
         sameSite: process.env.PRODUCTION?'none':false, 
         secure: process.env.PRODUCTION?true:false,
